@@ -1,12 +1,12 @@
 {
-  "name": "create-vite",
+  "name": "create-doll",
   "version": "4.1.0",
   "type": "module",
   "license": "MIT",
-  "author": "Evan You",
+  "author": "binghuis",
   "bin": {
-    "create-vite": "index.js",
-    "cva": "index.js"
+    "create-doll": "index.js",
+    "doll": "index.js"
   },
   "files": [
     "index.js",
@@ -23,15 +23,10 @@
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vitejs/vite.git",
-    "directory": "packages/create-vite"
-  },
   "bugs": {
-    "url": "https://github.com/vitejs/vite/issues"
+    "url": "https://github.com/binghuis/create-doll/issues"
   },
-  "homepage": "https://github.com/vitejs/vite/tree/main/packages/create-vite#readme",
+  "homepage": "https://github.com/binghuis/create-doll/blob/main/README.md",
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
     "@types/minimist": "^1.2.2",
