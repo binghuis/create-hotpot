@@ -24,12 +24,19 @@ const argv = minimist<{
 const cwd = process.cwd();
 
 type ColorFunc = (str: string | number) => string;
+
+/** 前端框架的配置信息 */
 type Framework = {
+  /** 名称 */
   name: string;
+  /** 显示名称 */
   display: string;
   color: ColorFunc;
+  /** 该框架的所有变体 */
   variants: FrameworkVariant[];
 };
+
+/** 前端框架的变体配置信息 */
 type FrameworkVariant = {
   name: string;
   display: string;
@@ -37,6 +44,7 @@ type FrameworkVariant = {
   customCommand?: string;
 };
 
+/** 各种前端框架的配置信息 */
 const FRAMEWORKS: Framework[] = [
   {
     name: "vanilla",
@@ -183,31 +191,35 @@ const FRAMEWORKS: Framework[] = [
   },
 ];
 
-/** FRAMEWORKS 展开，获取所有模板名 */
+/** 包含所有可用的模板名称，包括每个框架的名称和每个框架变体的名称 */
 const TEMPLATES = FRAMEWORKS.map(
   (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
 ).reduce((a, b) => a.concat(b), []);
 
+/** 将_gitignore字符串重命名为.gitignore */
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: ".gitignore",
 };
 
-/** 默认项目路径 */
+/** 默认目标目录 */
 const defaultTargetDir = "vite-project";
 
-/** 主函数 */
 async function init() {
-  /** 用户输入的项目路径 */
+  /** 表示用户在命令行中输入的第一个非选项参数，即目标目录的名称 */
   const argTargetDir = formatTargetDir(argv._[0]);
-  /** 用户输入的模板名 */
+  /** 获取命令行参数 --template 或 -t 的值 */
   const argTemplate = argv.template || argv.t;
 
   let targetDir = argTargetDir || defaultTargetDir;
-  /** 路径为'.'，则表示项目路径为当前目录 */
+  /**
+   * 该函数用于获取项目名称。如果用户没有指定目标目录，则默认为 "vite-project"。
+   * 如果用户指定的目标目录为当前目录（即 "."），则获取当前目录的名称作为项目名称，
+   * 否则使用用户指定的目标目录作为项目名称。
+   */
   const getProjectName = () =>
     targetDir === "." ? path.basename(path.resolve()) : targetDir;
 
-  /** 命令行交互结果 */
+  /** 存储用户输入的答案 */
   let result: prompts.Answers<
     "projectName" | "overwrite" | "packageName" | "framework" | "variant"
   >;
