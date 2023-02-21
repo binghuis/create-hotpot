@@ -1,7 +1,7 @@
 import path from 'node:path'
 import url from 'node:url'
 import { defineBuildConfig } from 'unbuild'
-import licensePlugin from '../vite/rollupLicensePlugin'
+import licensePlugin from './rollupLicensePlugin'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
