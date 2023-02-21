@@ -408,35 +408,29 @@ async function init() {
   console.log();
 }
 
-/** 删除首尾空格和结尾的 / */
+/** 去掉两端空格，并替换掉字符串末尾的一个或多个斜杠（/），以确保目标目录的格式正确 */
 function formatTargetDir(targetDir: string | undefined) {
   return targetDir?.trim().replace(/\/+$/g, "");
 }
 
-function copy(src: string, dest: string) {
-  const stat = fs.statSync(src);
-  if (stat.isDirectory()) {
-    copyDir(src, dest);
-  } else {
-    fs.copyFileSync(src, dest);
-  }
-}
-
+/** 验证用户输入的项目名称是否符合命名规范 */
 function isValidPackageName(projectName: string) {
   return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
     projectName
   );
 }
 
+/** 将用户输入的项目名称转换为一个符合命名规范的字符串 */
 function toValidPackageName(projectName: string) {
   return projectName
     .trim()
     .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/^[._]/, "")
-    .replace(/[^a-z\d\-~]+/g, "-");
+    .replace(/\s+/g, "-") // 匹配所有空格，并用连字符 - 替换
+    .replace(/^[._]/, "") // 匹配开头的点号或下划线，将其删除
+    .replace(/[^a-z\d\-~]+/g, "-"); // 匹配所有非小写字母、数字、连字符、波浪线的字符，并用连字符 - 替换
 }
 
+/** 将一个目录下的所有文件和子目录复制到另一个目录中 */
 function copyDir(srcDir: string, destDir: string) {
   fs.mkdirSync(destDir, { recursive: true });
   for (const file of fs.readdirSync(srcDir)) {
@@ -446,12 +440,23 @@ function copyDir(srcDir: string, destDir: string) {
   }
 }
 
+/** 将一个文件或目录复制到另一个位置 */
+function copy(src: string, dest: string) {
+  const stat = fs.statSync(src);
+  if (stat.isDirectory()) {
+    copyDir(src, dest);
+  } else {
+    fs.copyFileSync(src, dest);
+  }
+}
+
+/** 判断项目目录是否为空 */
 function isEmpty(path: string) {
   const files = fs.readdirSync(path);
   return files.length === 0 || (files.length === 1 && files[0] === ".git");
 }
 
-/** 清空目录 */
+/** 清空指定目录下的所有文件和子目录 */
 function emptyDir(dir: string) {
   if (!fs.existsSync(dir)) {
     return;
@@ -464,6 +469,7 @@ function emptyDir(dir: string) {
   }
 }
 
+/** 从用户代理中提取出包名和版本信息 */
 function pkgFromUserAgent(userAgent: string | undefined) {
   if (!userAgent) return undefined;
   const pkgSpec = userAgent.split(" ")[0];
@@ -474,6 +480,13 @@ function pkgFromUserAgent(userAgent: string | undefined) {
   };
 }
 
+/**
+ * 将 React 项目中的 "@vitejs/plugin-react" 插件替换为 "@vitejs/plugin-react-swc" 插件
+ * 以使用 SWC 转译器进行代码转译
+ *
+ * @param root 项目根目录的路径
+ * @param isTs 是否使用 TypeScript
+ */
 function setupReactSwc(root: string, isTs: boolean) {
   editFile(path.resolve(root, "package.json"), (content) => {
     return content.replace(
@@ -492,6 +505,13 @@ function setupReactSwc(root: string, isTs: boolean) {
   );
 }
 
+/**
+ * 读取指定路径的文件内容，并将其作为参数传递给 callback，callback 函数会处理文件内容，
+ * 并将处理后的内容写入到指定路径的文件中。
+ *
+ * @param file 要编辑的文件的路径
+ * @param callback 用于处理文件的内容
+ */
 function editFile(file: string, callback: (content: string) => string) {
   const content = fs.readFileSync(file, "utf-8");
   fs.writeFileSync(file, callback(content), "utf-8");
