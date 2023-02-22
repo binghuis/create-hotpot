@@ -8,12 +8,9 @@ import { blue, cyan, green, red, reset, yellow } from "kolorist";
 type ColorFunc = (str: string | number) => string;
 
 type Framework = {
-  /** 名称 */
   name: string;
-  /** 显示名称 */
   display: string;
   color: ColorFunc;
-  /** 该框架的所有变体 */
   variants: FrameworkVariant[];
 };
 
@@ -125,7 +122,7 @@ async function init() {
         {
           type: () => (isValidPackageName(getProjectName()) ? null : "text"),
           name: "packageName",
-          message: reset("Package name:"),
+          message: reset("包名:"),
           initial: () => toValidPackageName(getProjectName()),
           validate: (dir) =>
             isValidPackageName(dir) || "无效的 package.json 名称",
