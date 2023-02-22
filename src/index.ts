@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import spawn from "cross-spawn";
 import minimist from "minimist";
 import prompts from "prompts";
 import { blue, cyan, green, red, reset, yellow } from "kolorist";
@@ -22,15 +21,7 @@ type FrameworkVariant = {
   name: string;
   display: string;
   color: ColorFunc;
-  customCommand?: string;
 };
-
-const argv = minimist<{
-  t?: string;
-  template?: string;
-}>(process.argv.slice(2), { string: ["_"] });
-
-const cwd = process.cwd();
 
 const FRAMEWORKS: Framework[] = [
   {
@@ -69,14 +60,21 @@ const FRAMEWORKS: Framework[] = [
   },
 ];
 
-const TEMPLATES = FRAMEWORKS.map(
-  (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
-).reduce((a, b) => a.concat(b), []);
-
 /** 文件名映射表 */
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: ".gitignore",
 };
+
+const argv = minimist<{
+  t?: string;
+  template?: string;
+}>(process.argv.slice(2), { string: ["_"] });
+
+const cwd = process.cwd();
+
+const TEMPLATES = FRAMEWORKS.map(
+  (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
+).reduce((a, b) => a.concat(b), []);
 
 const defaultTargetDir = "my-doll-project";
 
@@ -187,45 +185,7 @@ async function init() {
 
   let template: string = variant || framework?.name || argTemplate;
 
-  const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent);
-  const pkgManager = pkgInfo ? pkgInfo.name : "npm";
-
-  const isYarn1 = pkgManager === "yarn" && pkgInfo?.version.startsWith("1.");
-
-  const { customCommand } =
-    FRAMEWORKS.flatMap((f) => f.variants).find((v) => v.name === template) ??
-    {};
-
-  if (customCommand) {
-    const fullCustomCommand = customCommand
-      .replace(/^npm create/, `${pkgManager} create`)
-      // Only Yarn 1.x doesn't support `@version` in the `create` command
-      .replace("@latest", () => (isYarn1 ? "" : "@latest"))
-      .replace(/^npm exec/, () => {
-        // Prefer `pnpm dlx` or `yarn dlx`
-        if (pkgManager === "pnpm") {
-          return "pnpm dlx";
-        }
-        if (pkgManager === "yarn" && !isYarn1) {
-          return "yarn dlx";
-        }
-        // Use `npm exec` in all other cases,
-        // including Yarn 1.x and other custom npm clients.
-        return "npm exec";
-      });
-
-    const [command, ...args] = fullCustomCommand.split(" ");
-    // we replace TARGET_DIR here because targetDir may include a space
-    const replacedArgs = args.map((arg) =>
-      arg.replace("TARGET_DIR", targetDir)
-    );
-    const { status } = spawn.sync(command, replacedArgs, {
-      stdio: "inherit",
-    });
-    process.exit(status ?? 0);
-  }
-
-  console.log(`\n项目正在 ${root} 搭建中...`);
+  console.log(`\n项目正在目录 ${root} 搭建中...`);
 
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
@@ -257,6 +217,7 @@ async function init() {
   write("package.json", JSON.stringify(pkg, null, 2) + "\n");
 
   const cdProjectName = path.relative(cwd, root);
+
   console.log(`\n搭建成功，请输入:\n`);
 
   if (root !== cwd) {
@@ -267,17 +228,8 @@ async function init() {
     );
   }
 
-  switch (pkgManager) {
-    case "yarn":
-      console.log("  yarn");
-      console.log("  yarn dev");
-      break;
-    default:
-      console.log(`  ${pkgManager} install`);
-      console.log(`  ${pkgManager} run dev`);
-      break;
-  }
-  console.log();
+  console.log(`  pnpm install`);
+  console.log(`  pnpm run dev`);
 }
 
 /** 去掉两端空格，并替换掉字符串末尾的一个或多个斜杠（/），以确保目标目录的格式正确 */
@@ -339,17 +291,6 @@ function emptyDir(dir: string) {
     }
     fs.rmSync(path.resolve(dir, file), { recursive: true, force: true });
   }
-}
-
-/** 从用户代理中提取出包名和版本信息 */
-function pkgFromUserAgent(userAgent: string | undefined) {
-  if (!userAgent) return undefined;
-  const pkgSpec = userAgent.split(" ")[0];
-  const pkgSpecArr = pkgSpec.split("/");
-  return {
-    name: pkgSpecArr[0],
-    version: pkgSpecArr[1],
-  };
 }
 
 init().catch((e) => {
