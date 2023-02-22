@@ -113,7 +113,7 @@ async function init() {
           name: "overwrite",
           message: () =>
             (targetDir === "." ? "当前目录" : `目标目录 "${targetDir}"`) +
-            ` 不为空。 删除现有文件并继续？`,
+            ` 已存在文件。是否清空并继续创建？`,
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
@@ -138,8 +138,8 @@ async function init() {
           name: "framework",
           message:
             typeof argTemplate === "string" && !TEMPLATES.includes(argTemplate)
-              ? reset(`"${argTemplate}" 模板不存在。请从下面选择：`)
-              : reset("选择一个模板。"),
+              ? reset(`模板 "${argTemplate}" 不存在。请从下面模板中选择:`)
+              : reset("请选择一个模板构建项目:"),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
             const frameworkColor = framework.color;
@@ -153,7 +153,7 @@ async function init() {
           type: (framework: Framework) =>
             framework && framework.variants ? "select" : null,
           name: "variant",
-          message: reset("Select a variant:"),
+          message: reset("请选择一个模板变体:"),
           choices: (framework: Framework) =>
             framework.variants.map((variant) => {
               const variantColor = variant.color;
@@ -225,7 +225,7 @@ async function init() {
     process.exit(status ?? 0);
   }
 
-  console.log(`\n现在在 ${root} 中搭建项目...`);
+  console.log(`\n项目正在 ${root} 搭建中...`);
 
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
@@ -257,7 +257,7 @@ async function init() {
   write("package.json", JSON.stringify(pkg, null, 2) + "\n");
 
   const cdProjectName = path.relative(cwd, root);
-  console.log(`\nDone. Now run:\n`);
+  console.log(`\n搭建成功，请输入:\n`);
 
   if (root !== cwd) {
     console.log(
