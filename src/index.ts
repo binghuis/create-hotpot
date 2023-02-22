@@ -122,10 +122,10 @@ async function init() {
         {
           type: () => (isValidPackageName(getProjectName()) ? null : "text"),
           name: "packageName",
-          message: reset("包名:"),
+          message: reset("输入 package.json 名:"),
           initial: () => toValidPackageName(getProjectName()),
           validate: (dir) =>
-            isValidPackageName(dir) || "无效的 package.json 名称",
+            isValidPackageName(dir) || "无效的 package.json 名，请重新输入",
         },
         {
           type:
@@ -225,8 +225,8 @@ async function init() {
     );
   }
 
-  console.log(`  pnpm install`);
-  console.log(`  pnpm run dev`);
+  console.log(`  pnpm i`);
+  console.log(`  pnpm dev`);
 }
 
 /** 去掉两端空格，并替换掉字符串末尾的一个或多个斜杠（/），以确保目标目录的格式正确 */
