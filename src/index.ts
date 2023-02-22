@@ -215,7 +215,7 @@ async function init() {
 
   const cdProjectName = path.relative(cwd, root);
 
-  console.log(`\n搭建成功，请输入:\n`);
+  console.log(`\n搭建成功，请继续输入:\n`);
 
   if (root !== cwd) {
     console.log(
