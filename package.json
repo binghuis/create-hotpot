@@ -29,20 +29,13 @@
   },
   "homepage": "https://github.com/binghuis/create-doll/blob/main/README.md",
   "devDependencies": {
-    "@types/cross-spawn": "^6.0.2",
     "@types/minimist": "^1.2.2",
     "@types/prompts": "^2.4.2",
-    "@types/resolve": "^1.20.2",
-    "cross-spawn": "^7.0.3",
-    "fast-glob": "^3.2.12",
     "kolorist": "^1.6.0",
     "minimist": "^1.2.7",
     "only-allow": "^1.1.1",
-    "picocolors": "^1.0.0",
     "prompts": "^2.4.2",
-    "resolve": "^1.22.1",
     "rollup": "^3.17.2",
-    "rollup-plugin-license": "^3.0.1",
     "unbuild": "^1.1.2"
   }
 }
