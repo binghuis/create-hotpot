@@ -1,1 +1,3 @@
-from create-vite 4.1.0
+- 项目 fork 自 create-vite
+- 个人 cli，用作开发学习
+- 项目中中文注释 90% 以上由 chatgpt 生成
