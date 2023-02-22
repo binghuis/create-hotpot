@@ -8,7 +8,6 @@ import { blue, cyan, green, red, reset, yellow } from "kolorist";
 
 type ColorFunc = (str: string | number) => string;
 
-/** 前端框架的配置信息 */
 type Framework = {
   /** 名称 */
   name: string;
@@ -19,7 +18,6 @@ type Framework = {
   variants: FrameworkVariant[];
 };
 
-/** 前端框架的变体配置信息 */
 type FrameworkVariant = {
   name: string;
   display: string;
@@ -34,7 +32,6 @@ const argv = minimist<{
 
 const cwd = process.cwd();
 
-/** 各种前端框架的配置信息 */
 const FRAMEWORKS: Framework[] = [
   {
     name: "vue",
@@ -228,27 +225,14 @@ async function init() {
     process.exit(status ?? 0);
   }
 
-  console.log(`\nScaffolding project in ${root}...`);
-  /**
-   * 这段代码使用了 path.resolve 方法，用于将多个路径解析为一个绝对路径，其中：
-   * fileURLToPath 方法将 import.meta.url 对象转换为文件路径字符串。
-   * ../.. 表示当前文件所在目录的上上级目录。
-   * template-${template} 是一个路径片段，用于构造最终路径。它将被添加到 ../.. 后面，
-   * 形成一个新的路径，指向名为 template-<template> 的目录，其中 <template> 是变量。
-   * 总之，这段代码的作用是构造模板目录的绝对路径。最终结果将被赋值给 templateDir 变量。
-   */
+  console.log(`\n现在在 ${root} 中搭建项目...`);
+
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
     "../..",
     `template-${template}`
   );
 
-  /**
-   * 将模板目录中的文件拷贝到目标目录，并根据 renameFiles 对象对文件进行重命名。
-   * 具体来说，如果 content 参数存在，则直接将其写入到 targetPath 文件中，
-   * 否则从模板目录中拷贝对应的文件到 targetPath 中。如果 renameFiles 中存在对应的文件名，
-   * 则使用重命名后的文件名，否则使用原始文件名。
-   */
   const write = (file: string, content?: string) => {
     const targetPath = path.join(root, renameFiles[file] ?? file);
     if (content) {
@@ -258,11 +242,6 @@ async function init() {
     }
   };
 
-  /**
-   * fs.readdirSync(path) 方法返回一个数组，其中包含指定目录中的文件名和子目录名称。
-   * 它的参数 path 是一个字符串，表示要读取的目录的路径。在这里，templateDir
-   * 是通过解析 template-${template} 目录得到的，即模板的目录。这个方法用来获取模板目录下的所有文件和子目录的名称。
-   */
   const files = fs.readdirSync(templateDir);
   for (const file of files.filter((f) => f !== "package.json")) {
     write(file);
@@ -277,14 +256,9 @@ async function init() {
 
   write("package.json", JSON.stringify(pkg, null, 2) + "\n");
 
-  /** 指定在项目目录下运行的 cd 命令所要进入的目录名。它的值是将当前工作目录 cwd 和新建的项目目录 root 取相对路径得到的。 */
   const cdProjectName = path.relative(cwd, root);
   console.log(`\nDone. Now run:\n`);
-  /**
-   * 这段代码是用来输出 cd 命令，以便用户可以快速进入项目根目录。它检查项目根目录是否与当前工作目录相同，
-   * 如果不同，则输出 cd 命令。cd 命令后跟的是项目根目录的相对路径。如果项目根目录包含空格，则路径会被双引号引起来。
-   * 例如，如果项目根目录为 /Users/john/my project，则输出 cd "my project"。
-   */
+
   if (root !== cwd) {
     console.log(
       `  cd ${
@@ -293,11 +267,6 @@ async function init() {
     );
   }
 
-  /**
-   * 这个代码块是输出在终端的一些提示，根据包管理工具的不同输出不同的命令提示。
-   * 如果包管理工具是 yarn ，则输出 "yarn" 和 "yarn dev"，否则输出 "npm install"
-   * 和 "npm run dev"（其中 npm 可以替换为其他包管理工具的名称）。这些命令是用来安装依赖和启动项目的。
-   */
   switch (pkgManager) {
     case "yarn":
       console.log("  yarn");
