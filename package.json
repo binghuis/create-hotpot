@@ -18,7 +18,7 @@
     "dev": "unbuild --stub",
     "build": "unbuild",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "preinstall": "npx only-allow pnpm"
   },
   "engines": {
