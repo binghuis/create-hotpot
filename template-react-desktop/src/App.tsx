@@ -6,6 +6,7 @@ import useMediaQuery from "./hooks/use-media-query";
 import DemoPage from "./pages/demo-page";
 
 const { darkAlgorithm, compactAlgorithm, defaultAlgorithm } = theme;
+
 type ColorAlgorithmType = typeof darkAlgorithm | typeof defaultAlgorithm;
 
 const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)";
@@ -13,7 +14,6 @@ const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)";
 function App() {
   const [colorScheme, setColorScheme] = useState<Theme>();
   const isDarkMode = useMediaQuery(COLOR_SCHEME_QUERY);
-  console.log(isDarkMode);
 
   const colorAlgorithm: ColorAlgorithmType = useMemo(() => {
     switch (colorScheme) {
@@ -36,11 +36,7 @@ function App() {
         },
       }}
     >
-      <ThemeToggle
-        onChange={(theme) => {
-          setColorScheme(theme);
-        }}
-      />
+      <ThemeToggle onChange={setColorScheme} />
       <DemoPage />
     </ConfigProvider>
   );

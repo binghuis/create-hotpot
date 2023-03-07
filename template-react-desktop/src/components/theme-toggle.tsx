@@ -34,6 +34,7 @@ const ThemeToggle = (props: ThemeToggleProps) => {
 
   return (
     <Dropdown
+      trigger={["click"]}
       menu={{
         onSelect: (e) => {
           const theme = e.key as Theme;
@@ -61,7 +62,7 @@ const ThemeToggle = (props: ThemeToggleProps) => {
       }}
     >
       <Button
-        className="flex justify-center items-center w-auto h-auto p-1"
+        className="flex justify-center items-center w-auto h-auto p-1 border-none"
         icon={renderIcon(theme)}
       />
     </Dropdown>
