@@ -1,6 +1,7 @@
 import { Button, Dropdown } from "antd";
 import { useEffect, useState } from "react";
 import { IconSun, IconMoon, IconBrightnessHalf } from "@tabler/icons-react";
+import store from "store2";
 
 export enum Theme {
   Auto = "auto",
@@ -24,10 +25,11 @@ interface ThemeToggleProps {
 }
 
 const ThemeToggle = (props: ThemeToggleProps) => {
-  const [theme, setTheme] = useState<Theme>(Theme.Auto);
+  const [theme, setTheme] = useState<Theme>(store.get("theme") ?? Theme.Auto);
 
   useEffect(() => {
     props?.onChange(theme);
+    store.set("theme", theme);
   }, [theme]);
 
   return (

@@ -1,10 +1,9 @@
-/** https://usehooks-ts.com/react-hook/use-media-queryƒ */
+/** https://usehooks-ts.com/react-hook/use-media-query */
 
 import { useEffect, useState } from "react";
 
 function useMediaQuery(query: string): boolean {
   const getMatches = (query: string): boolean => {
-    // Prevents SSR issues
     if (typeof window !== "undefined") {
       return window.matchMedia(query).matches;
     }
