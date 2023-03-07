@@ -12,6 +12,7 @@
   "dependencies": {
     "@tabler/icons-react": "^2.7.0",
     "antd": "^5.2.3",
+    "lodash-es": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

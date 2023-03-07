@@ -1,5 +1,5 @@
 import { Button, Dropdown } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconSun, IconMoon, IconBrightnessHalf } from "@tabler/icons-react";
 
 export enum Theme {
@@ -10,23 +10,32 @@ export enum Theme {
 
 const renderIcon = (theme: Theme) => {
   switch (theme) {
+    case Theme.Auto:
+      return <IconBrightnessHalf size="20" />;
     case Theme.Dark:
       return <IconMoon size="20" />;
-    case Theme.Light:
-      return <IconSun size="20" />;
     default:
-      return <IconBrightnessHalf size="20" />;
+      return <IconSun size="20" />;
   }
 };
 
-const ThemeToggle = () => {
+interface ThemeToggleProps {
+  onChange: (theme: Theme) => void;
+}
+
+const ThemeToggle = (props: ThemeToggleProps) => {
   const [theme, setTheme] = useState<Theme>(Theme.Auto);
+
+  useEffect(() => {
+    props?.onChange(theme);
+  }, [theme]);
 
   return (
     <Dropdown
       menu={{
         onSelect: (e) => {
-          setTheme(e.key as Theme);
+          const theme = e.key as Theme;
+          setTheme(theme);
         },
         items: [
           {
@@ -49,7 +58,10 @@ const ThemeToggle = () => {
         selectedKeys: [theme],
       }}
     >
-      <Button className="flex justify-center items-center w-auto h-auto p-1" icon={renderIcon(theme)} />
+      <Button
+        className="flex justify-center items-center w-auto h-auto p-1"
+        icon={renderIcon(theme)}
+      />
     </Dropdown>
   );
 };

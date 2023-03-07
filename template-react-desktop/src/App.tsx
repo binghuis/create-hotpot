@@ -1,20 +1,43 @@
 import { ConfigProvider, theme } from "antd";
-
-const { darkAlgorithm, compactAlgorithm, defaultAlgorithm } = theme;
+import { useMemo, useState } from "react";
 import "./App.css";
+import ThemeToggle, { Theme } from "./components/theme-toggle";
+import useMediaQuery from "./hooks/use-media-query";
 import DemoPage from "./pages/demo-page";
 
+const { darkAlgorithm, compactAlgorithm, defaultAlgorithm } = theme;
+type ColorAlgorithmType = typeof darkAlgorithm | typeof defaultAlgorithm;
+
 function App() {
+  const [colorScheme, setColorScheme] = useState<Theme>();
+  const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+  const colorAlgorithm: ColorAlgorithmType = useMemo(() => {
+    switch (colorScheme) {
+      case Theme.Auto:
+        return isDarkMode ? darkAlgorithm : defaultAlgorithm;
+      case Theme.Dark:
+        return darkAlgorithm;
+      default:
+        return defaultAlgorithm;
+    }
+  }, [colorScheme]);
+
   return (
     <ConfigProvider
       theme={{
-        algorithm: [compactAlgorithm, darkAlgorithm],
+        algorithm: [compactAlgorithm, colorAlgorithm],
         token: {},
         components: {
           Button: {},
         },
       }}
     >
+      <ThemeToggle
+        onChange={(theme) => {
+          setColorScheme(theme);
+        }}
+      />
       <DemoPage />
     </ConfigProvider>
   );

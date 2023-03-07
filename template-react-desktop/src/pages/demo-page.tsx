@@ -1,11 +1,5 @@
-import ThemeToggle from "../components/theme-toggle";
-
 const DemoPage = () => {
-  return (
-    <div>
-      <ThemeToggle />
-    </div>
-  );
+  return <div>Demo</div>;
 };
 
 export default DemoPage;
