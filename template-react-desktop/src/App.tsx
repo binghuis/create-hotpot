@@ -37,12 +37,12 @@ function App() {
           leftPaneClassName=""
           rightPane={
             <Layout className="ml-3 mr-3 mt-2 mb-1">
-              <Layout.Content className="overflow-y-auto p-2 rounded-sm min-h-min">
+              <Layout.Content className="overflow-y-auto p-2 min-h-min">
                 <Outlet />
               </Layout.Content>
-              <footer className="text-center text-gray-300 text-xs p-1">
+              <Layout.Footer className="text-center text-gray-300 text-xs p-1">
                 Footer
-              </footer>
+              </Layout.Footer>
             </Layout>
           }
           rightPaneClassName="flex flex-col justify-between"

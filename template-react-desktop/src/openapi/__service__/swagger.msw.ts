@@ -232,7 +232,7 @@ export const getUploadFileMock = () => ({
 });
 
 export const getGetInventoryMock = () => ({
-  clezhe7lp0000dhcbaacm5jug: faker.datatype.number({
+  clezukpuj0000yyha3kktcsn0: faker.datatype.number({
     min: undefined,
     max: undefined,
   }),

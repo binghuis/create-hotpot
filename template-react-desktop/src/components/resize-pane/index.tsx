@@ -25,7 +25,7 @@ interface RezisePaneProps {
 const ResizePane: React.FC<RezisePaneProps> = ({
   leftPane,
   rightPane,
-  initValue = 180,
+  initValue = 200,
   max = 400,
   min = 180,
   leftPaneClassName = '',

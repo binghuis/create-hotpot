@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.site-header {
-  position: sticky;
-  top: -10px;
-  z-index: 999;
-  box-shadow: 0 -6px 10px 5px rgb(0 0 0 / 15%);
-}
-
 body {
   background-color: rgb(245, 248, 255);
 }
