@@ -1,14 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ConfigProvider, theme, ThemeConfig } from "antd";
 import App from "./App";
-import "./index.css";
-// import 'antd/dist/reset.css';
 import { StyleProvider } from "@ant-design/cssinjs";
+const { compactAlgorithm } = theme;
+
+import 'antd/dist/reset.css';
+import "./index.css";
+
+const themeConfig: ThemeConfig = {
+  algorithm: [compactAlgorithm],
+  token: {},
+  components: {
+    Button: {},
+  },
+};
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <StyleProvider hashPriority="high">
-      <App />
+      <ConfigProvider theme={themeConfig}>
+        <App />
+      </ConfigProvider>
     </StyleProvider>
   </React.StrictMode>
 );
