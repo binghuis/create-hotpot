@@ -40,7 +40,7 @@ class DuplicateRequestsController {
       {}
     );
     if (this.hasPending(key)) {
-      console.warn(`<== ${key} 频繁请求，本次被忽略 ==>`);
+      console.warn(`${key} 频繁请求，本次被忽略`);
       controller.abort();
     } else {
       this.pending[key] = {
@@ -118,7 +118,7 @@ AXIOS_INSTANCE.interceptors.request.use(
     return { ...c, signal: controller.signal };
   },
   (error) => {
-    console.log(error);
+    console.warn(error);
   }
 );
 
@@ -140,7 +140,7 @@ AXIOS_INSTANCE.interceptors.response.use(
     return res;
   },
   (error) => {
-    console.log(error.message);
+    console.warn(error.message);
   }
 );
 
