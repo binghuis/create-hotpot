@@ -67,7 +67,7 @@ class DuplicateRequestsController {
     const uri = axios.getUri(config);
     const key = `${config.method?.toUpperCase()} ${uri}`;
     if (!import.meta.env.PROD) {
-      console.log(chalk.green(`${flag} ${key}`));
+      console.log(chalk.green(`${flag}: ${key}`));
     }
     return key;
   };
@@ -103,24 +103,19 @@ const axReqConfig: AxiosRequestConfig = {
 
 export const AXIOS_INSTANCE = axios.create(axReqConfig);
 
-AXIOS_INSTANCE.interceptors.request.use(
-  (c) => {
-    if (c.headers) {
-      // headers 加 token
-      c.headers = {
-        ...c.headers,
-        ...getAuthHeader(authSecret.decrypt(store.get("token"))),
-      } as AxiosRequestHeaders;
-    }
-    const controller = new AbortController();
-    const key = duplicateRequestsController.genRequestKey(c, "request");
-    duplicateRequestsController.addPending(key, controller);
-    return { ...c, signal: controller.signal };
-  },
-  (error) => {
-    console.warn(error);
+AXIOS_INSTANCE.interceptors.request.use((c) => {
+  if (c.headers) {
+    // headers 加 token
+    c.headers = {
+      ...c.headers,
+      ...getAuthHeader(authSecret.decrypt(store.get("token"))),
+    } as AxiosRequestHeaders;
   }
-);
+  const controller = new AbortController();
+  const key = duplicateRequestsController.genRequestKey(c, "request");
+  duplicateRequestsController.addPending(key, controller);
+  return { ...c, signal: controller.signal };
+}, console.warn);
 
 AXIOS_INSTANCE.interceptors.response.use(
   (res: AxiosResponse<BaseResponse>) => {
@@ -147,7 +142,9 @@ AXIOS_INSTANCE.interceptors.response.use(
 export const ax = <T>(config: AxiosRequestConfig): Promise<T> => {
   return AXIOS_INSTANCE({
     ...config,
-  }).then(({ data }) => data);
+  })
+    .then(({ data }) => data)
+    .catch(console.warn);
 };
 
 const request = (method: Method) => {

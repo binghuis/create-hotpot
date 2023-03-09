@@ -21,7 +21,6 @@
     "dayjs": "^1.11.7",
     "http-status-codes": "^2.2.0",
     "lodash-es": "^4.17.21",
-    "lru-cache": "^7.18.3",
     "msw": "^1.1.0",
     "orval": "^6.12.1",
     "prettier": "^2.8.4",
