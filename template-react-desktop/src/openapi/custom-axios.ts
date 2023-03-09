@@ -40,7 +40,7 @@ class DuplicateRequestsController {
       {}
     );
     if (this.hasPending(key)) {
-      console.warn(`接口 ${key} 短时间内重复请求，本次请求被忽略`);
+      console.warn(`<== ${key} 频繁请求，本次被忽略 ==>`);
       controller.abort();
     } else {
       this.pending[key] = {
