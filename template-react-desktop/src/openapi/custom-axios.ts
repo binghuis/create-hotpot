@@ -23,11 +23,12 @@ class DuplicateRequestsController {
   private expire: number;
   constructor() {
     this.pending = {};
-    /** 接口最大超时时间（毫秒） */
+    /** 接口最大存储时间（毫秒） */
     this.expire = 2000;
   }
   hasPending = (key: string) => this.pending[key];
   addPending = (key: string, controller: AbortController) => {
+    /** 过滤过期接口 */
     this.pending = Object.entries(this.pending).reduce(
       (acc: IPending, [key, val]) => {
         const duration = Date.now() - val.time;
@@ -64,12 +65,11 @@ class DuplicateRequestsController {
       return `${+new Date()}`.valueOf();
     }
     const uri = axios.getUri(config);
+    const key = `${config.method?.toUpperCase()} ${uri}`;
     if (!import.meta.env.PROD) {
-      console.log(
-        chalk.green(`${flag} ${config.method?.toUpperCase()} ${uri}`)
-      );
+      console.log(chalk.green(`${flag} ${key}`));
     }
-    return config.method?.toLocaleUpperCase() + uri;
+    return key;
   };
 }
 
@@ -117,8 +117,8 @@ AXIOS_INSTANCE.interceptors.request.use(
     duplicateRequestsController.addPending(key, controller);
     return { ...c, signal: controller.signal };
   },
-  function (error: unknown) {
-    return Promise.reject(error);
+  (error) => {
+    console.log(error);
   }
 );
 
@@ -139,8 +139,8 @@ AXIOS_INSTANCE.interceptors.response.use(
     // 需要返回完整 response 给 openapi codegen
     return res;
   },
-  (error: unknown) => {
-    return Promise.reject(error);
+  (error) => {
+    console.log(error.message);
   }
 );
 

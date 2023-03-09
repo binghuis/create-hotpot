@@ -5,8 +5,13 @@ import Logo from "@/assets/react.svg";
 import { IconUserCircle } from "@tabler/icons-react";
 
 import "./App.css";
+import { useEffect } from "react";
+import iHttp from "./service/http";
 
 function App() {
+  useEffect(() => {
+    iHttp.joke()
+  },[])
   return (
     <Layout className="w-screen h-screen">
       <Layout.Header className="site-header h-14 p-0 pl-8 pr-2 flex items-center justify-between bg-white">
