@@ -28,12 +28,12 @@ const FRAMEWORKS: Framework[] = [
     variants: [
       {
         name: "vue-mobile",
-        display: "Mobile Site",
+        display: "Mobile",
         color: yellow,
       },
       {
         name: "vue-desktop",
-        display: "Desktop Site",
+        display: "Desktop",
         color: blue,
       },
     ],
@@ -45,12 +45,12 @@ const FRAMEWORKS: Framework[] = [
     variants: [
       {
         name: "react-mobile",
-        display: "Mobile Site",
+        display: "Mobile",
         color: yellow,
       },
       {
         name: "react-desktop",
-        display: "Desktop Site",
+        display: "Desktop",
         color: blue,
       },
     ],
