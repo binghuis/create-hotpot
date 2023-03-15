@@ -3,59 +3,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import minimist from "minimist";
 import prompts from "prompts";
-import { blue, cyan, green, red, reset, yellow } from "kolorist";
-
-type ColorFunc = (str: string | number) => string;
-
-type Framework = {
-  name: string;
-  display: string;
-  color: ColorFunc;
-  variants: FrameworkVariant[];
-};
-
-type FrameworkVariant = {
-  name: string;
-  display: string;
-  color: ColorFunc;
-};
-
-const FRAMEWORKS: Framework[] = [
-  {
-    name: "vue",
-    display: "Vue",
-    color: green,
-    variants: [
-      {
-        name: "vue-mobile",
-        display: "Mobile",
-        color: yellow,
-      },
-      {
-        name: "vue-desktop",
-        display: "Desktop",
-        color: blue,
-      },
-    ],
-  },
-  {
-    name: "react",
-    display: "React",
-    color: cyan,
-    variants: [
-      {
-        name: "react-mobile",
-        display: "Mobile",
-        color: yellow,
-      },
-      {
-        name: "react-desktop",
-        display: "Desktop",
-        color: blue,
-      },
-    ],
-  },
-];
+import { red, reset } from "kolorist";
+import { FRAMEWORKS } from "./constant";
+import { Framework } from "./types";
 
 /** 文件名映射表 */
 const renameFiles: Record<string, string | undefined> = {
