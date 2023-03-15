@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
+import mdx from '@astrojs/mdx';
+import preact from '@astrojs/preact';
 
 // https://astro.build/config
 export default defineConfig({
-	// Enable React to support React JSX components.
-	integrations: [react()],
+	integrations: [mdx(), preact()],
 });
