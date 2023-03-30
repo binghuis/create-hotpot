@@ -59,9 +59,9 @@ export type FindPetsByStatusStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindPetsByStatusStatus = {
-  available: "available",
-  pending: "pending",
-  sold: "sold",
+  available: 'available',
+  pending: 'pending',
+  sold: 'sold',
 } as const;
 
 export type FindPetsByStatusParams = {
@@ -89,9 +89,9 @@ export type PetStatus = (typeof PetStatus)[keyof typeof PetStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PetStatus = {
-  available: "available",
-  pending: "pending",
-  sold: "sold",
+  available: 'available',
+  pending: 'pending',
+  sold: 'sold',
 } as const;
 
 export interface Tag {
@@ -151,9 +151,9 @@ export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrderStatus = {
-  placed: "placed",
-  approved: "approved",
-  delivered: "delivered",
+  placed: 'placed',
+  approved: 'approved',
+  delivered: 'delivered',
 } as const;
 
 export interface Order {

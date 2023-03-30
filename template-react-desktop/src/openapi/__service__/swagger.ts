@@ -27,8 +27,8 @@ import type {
   Order,
   User,
   LoginUserParams,
-} from "./swagger.schemas";
-import { ax } from "../custom-axios";
+} from './swagger.schemas';
+import { ax } from '../custom-axios';
 
 export const getOpenApi = () => {
   /**
@@ -38,8 +38,8 @@ export const getOpenApi = () => {
   const updatePet = (pet: Pet) => {
     return ax<Pet>({
       url: `/pet`,
-      method: "put",
-      headers: { "Content-Type": "application/json" },
+      method: 'put',
+      headers: { 'Content-Type': 'application/json' },
       data: pet,
     });
   };
@@ -51,8 +51,8 @@ export const getOpenApi = () => {
   const addPet = (pet: Pet) => {
     return ax<Pet>({
       url: `/pet`,
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       data: pet,
     });
   };
@@ -62,7 +62,7 @@ export const getOpenApi = () => {
    * @summary Finds Pets by status
    */
   const findPetsByStatus = (params?: FindPetsByStatusParams) => {
-    return ax<Pet[]>({ url: `/pet/findByStatus`, method: "get", params });
+    return ax<Pet[]>({ url: `/pet/findByStatus`, method: 'get', params });
   };
 
   /**
@@ -70,7 +70,7 @@ export const getOpenApi = () => {
    * @summary Finds Pets by tags
    */
   const findPetsByTags = (params?: FindPetsByTagsParams) => {
-    return ax<Pet[]>({ url: `/pet/findByTags`, method: "get", params });
+    return ax<Pet[]>({ url: `/pet/findByTags`, method: 'get', params });
   };
 
   /**
@@ -78,7 +78,7 @@ export const getOpenApi = () => {
    * @summary Find pet by ID
    */
   const getPetById = (petId: number) => {
-    return ax<Pet>({ url: `/pet/${petId}`, method: "get" });
+    return ax<Pet>({ url: `/pet/${petId}`, method: 'get' });
   };
 
   /**
@@ -86,9 +86,9 @@ export const getOpenApi = () => {
    */
   const updatePetWithForm = (
     petId: number,
-    params?: UpdatePetWithFormParams
+    params?: UpdatePetWithFormParams,
   ) => {
-    return ax<unknown>({ url: `/pet/${petId}`, method: "post", params });
+    return ax<unknown>({ url: `/pet/${petId}`, method: 'post', params });
   };
 
   /**
@@ -96,7 +96,7 @@ export const getOpenApi = () => {
    * @summary Deletes a pet
    */
   const deletePet = (petId: number) => {
-    return ax<unknown>({ url: `/pet/${petId}`, method: "delete" });
+    return ax<unknown>({ url: `/pet/${petId}`, method: 'delete' });
   };
 
   /**
@@ -105,12 +105,12 @@ export const getOpenApi = () => {
   const uploadFile = (
     petId: number,
     uploadFilePayload: Blob,
-    params?: UploadFileParams
+    params?: UploadFileParams,
   ) => {
     return ax<ApiResponse>({
       url: `/pet/${petId}/uploadImage`,
-      method: "post",
-      headers: { "Content-Type": "application/octet-stream" },
+      method: 'post',
+      headers: { 'Content-Type': 'application/octet-stream' },
       data: uploadFilePayload,
       params,
     });
@@ -121,7 +121,7 @@ export const getOpenApi = () => {
    * @summary Returns pet inventories by status
    */
   const getInventory = () => {
-    return ax<GetInventory200>({ url: `/store/inventory`, method: "get" });
+    return ax<GetInventory200>({ url: `/store/inventory`, method: 'get' });
   };
 
   /**
@@ -131,8 +131,8 @@ export const getOpenApi = () => {
   const placeOrder = (order: Order) => {
     return ax<Order>({
       url: `/store/order`,
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       data: order,
     });
   };
@@ -142,7 +142,7 @@ export const getOpenApi = () => {
    * @summary Find purchase order by ID
    */
   const getOrderById = (orderId: number) => {
-    return ax<Order>({ url: `/store/order/${orderId}`, method: "get" });
+    return ax<Order>({ url: `/store/order/${orderId}`, method: 'get' });
   };
 
   /**
@@ -150,7 +150,7 @@ export const getOpenApi = () => {
    * @summary Delete purchase order by ID
    */
   const deleteOrder = (orderId: number) => {
-    return ax<unknown>({ url: `/store/order/${orderId}`, method: "delete" });
+    return ax<unknown>({ url: `/store/order/${orderId}`, method: 'delete' });
   };
 
   /**
@@ -160,8 +160,8 @@ export const getOpenApi = () => {
   const createUser = (user: User) => {
     return ax<unknown>({
       url: `/user`,
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       data: user,
     });
   };
@@ -173,8 +173,8 @@ export const getOpenApi = () => {
   const createUsersWithListInput = (user: User[]) => {
     return ax<User>({
       url: `/user/createWithList`,
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       data: user,
     });
   };
@@ -183,21 +183,21 @@ export const getOpenApi = () => {
    * @summary Logs user into the system
    */
   const loginUser = (params?: LoginUserParams) => {
-    return ax<string>({ url: `/user/login`, method: "get", params });
+    return ax<string>({ url: `/user/login`, method: 'get', params });
   };
 
   /**
    * @summary Logs out current logged in user session
    */
   const logoutUser = () => {
-    return ax<unknown>({ url: `/user/logout`, method: "get" });
+    return ax<unknown>({ url: `/user/logout`, method: 'get' });
   };
 
   /**
    * @summary Get user by user name
    */
   const getUserByName = (username: string) => {
-    return ax<User>({ url: `/user/${username}`, method: "get" });
+    return ax<User>({ url: `/user/${username}`, method: 'get' });
   };
 
   /**
@@ -207,8 +207,8 @@ export const getOpenApi = () => {
   const updateUser = (username: string, user: User) => {
     return ax<unknown>({
       url: `/user/${username}`,
-      method: "put",
-      headers: { "Content-Type": "application/json" },
+      method: 'put',
+      headers: { 'Content-Type': 'application/json' },
       data: user,
     });
   };
@@ -218,7 +218,7 @@ export const getOpenApi = () => {
    * @summary Delete user
    */
   const deleteUser = (username: string) => {
-    return ax<unknown>({ url: `/user/${username}`, method: "delete" });
+    return ax<unknown>({ url: `/user/${username}`, method: 'delete' });
   };
 
   return {
@@ -244,59 +244,59 @@ export const getOpenApi = () => {
   };
 };
 export type UpdatePetResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["updatePet"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['updatePet']>>
 >;
 export type AddPetResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["addPet"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['addPet']>>
 >;
 export type FindPetsByStatusResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["findPetsByStatus"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['findPetsByStatus']>>
 >;
 export type FindPetsByTagsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["findPetsByTags"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['findPetsByTags']>>
 >;
 export type GetPetByIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["getPetById"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['getPetById']>>
 >;
 export type UpdatePetWithFormResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["updatePetWithForm"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['updatePetWithForm']>>
 >;
 export type DeletePetResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["deletePet"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['deletePet']>>
 >;
 export type UploadFileResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["uploadFile"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['uploadFile']>>
 >;
 export type GetInventoryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["getInventory"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['getInventory']>>
 >;
 export type PlaceOrderResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["placeOrder"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['placeOrder']>>
 >;
 export type GetOrderByIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["getOrderById"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['getOrderById']>>
 >;
 export type DeleteOrderResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["deleteOrder"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['deleteOrder']>>
 >;
 export type CreateUserResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["createUser"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['createUser']>>
 >;
 export type CreateUsersWithListInputResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["createUsersWithListInput"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['createUsersWithListInput']>>
 >;
 export type LoginUserResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["loginUser"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['loginUser']>>
 >;
 export type LogoutUserResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["logoutUser"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['logoutUser']>>
 >;
 export type GetUserByNameResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["getUserByName"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['getUserByName']>>
 >;
 export type UpdateUserResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["updateUser"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['updateUser']>>
 >;
 export type DeleteUserResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getOpenApi>["deleteUser"]>>
+  Awaited<ReturnType<ReturnType<typeof getOpenApi>['deleteUser']>>
 >;

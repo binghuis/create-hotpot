@@ -12,14 +12,21 @@ export default class Secret {
     if (isEmpty(input)) {
       return '';
     }
-    return AES.encrypt(JSON.stringify(input), this.secretKey).toString();
+    try {
+      return AES.encrypt(JSON.stringify(input), this.secretKey).toString();
+    } catch (error) {
+      return '';
+    }
   };
 
   decrypt = (input: string) => {
     if (!input) {
       return '';
     }
-    const ret = JSON.parse(AES.decrypt(input, this.secretKey).toString(enc.Utf8));
-    return ret;
+    try {
+      return JSON.parse(AES.decrypt(input, this.secretKey).toString(enc.Utf8));
+    } catch (error) {
+      return '';
+    }
   };
 }
