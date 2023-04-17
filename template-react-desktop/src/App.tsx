@@ -32,7 +32,7 @@ function App() {
                 items={[
                   {
                     label: "Dashboard",
-                    icon: <IconUserCircle size={16} />,
+                    icon: <div><IconUserCircle size={16} /></div>,
                     key: "dashboard",
                   },
                 ]}
