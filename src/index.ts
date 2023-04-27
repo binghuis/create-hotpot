@@ -1,29 +1,30 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import minimist from "minimist";
-import prompts from "prompts";
-import { red, reset } from "kolorist";
-import { FRAMEWORKS } from "./constant";
-import { Framework } from "./types";
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import minimist from 'minimist';
+import prompts from 'prompts';
+import chalk from 'chalk';
+import ora from 'ora';
+import { FRAMEWORKS } from './constant';
+import { Framework } from './types';
 
 /** 文件名映射表 */
 const renameFiles: Record<string, string | undefined> = {
-  _gitignore: ".gitignore",
+  _gitignore: '.gitignore',
 };
 
 const argv = minimist<{
   t?: string;
   template?: string;
-}>(process.argv.slice(2), { string: ["_"] });
+}>(process.argv.slice(2), { string: ['_'] });
 
 const cwd = process.cwd();
 
 const TEMPLATES = FRAMEWORKS.map(
-  (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
+  (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name],
 ).reduce((a, b) => a.concat(b), []);
 
-const defaultTargetDir = "my-doll-project";
+const defaultTargetDir = 'my-hotpop-project';
 
 async function init() {
   /** 表示用户在命令行中输入的第一个非选项参数，即目标目录的名称 */
@@ -34,19 +35,19 @@ async function init() {
   let targetDir = argTargetDir || defaultTargetDir;
 
   const getProjectName = () =>
-    targetDir === "." ? path.basename(path.resolve()) : targetDir;
+    targetDir === '.' ? path.basename(path.resolve()) : targetDir;
 
   let result: prompts.Answers<
-    "projectName" | "overwrite" | "packageName" | "framework" | "variant"
+    'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant'
   >;
 
   try {
     result = await prompts(
       [
         {
-          type: argTargetDir ? null : "text",
-          name: "projectName",
-          message: reset("项目名:"),
+          type: argTargetDir ? null : 'text',
+          name: 'projectName',
+          message: chalk.reset('项目名:'),
           initial: defaultTargetDir,
           onState: (state) => {
             targetDir = formatTargetDir(state.value) || defaultTargetDir;
@@ -54,37 +55,37 @@ async function init() {
         },
         {
           type: () =>
-            !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : "confirm",
-          name: "overwrite",
+            !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
+          name: 'overwrite',
           message: () =>
-            (targetDir === "." ? "当前目录" : `目标目录 "${targetDir}"`) +
+            (targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}"`) +
             ` 已存在文件。是否清空并继续创建？`,
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
             if (overwrite === false) {
-              throw new Error(red("✖") + " 操作已取消");
+              throw new Error(chalk.red('✖') + ' 操作已取消');
             }
             return null;
           },
-          name: "overwriteChecker",
+          name: 'overwriteChecker',
         },
         {
-          type: () => (isValidPackageName(getProjectName()) ? null : "text"),
-          name: "packageName",
-          message: reset("输入 package.json 名:"),
+          type: () => (isValidPackageName(getProjectName()) ? null : 'text'),
+          name: 'packageName',
+          message: chalk.reset('输入 package.json 名:'),
           initial: () => toValidPackageName(getProjectName()),
           validate: (dir) =>
-            isValidPackageName(dir) || "无效的 package.json 名，请重新输入",
+            isValidPackageName(dir) || '无效的 package.json 名，请重新输入',
         },
         {
           type:
-            argTemplate && TEMPLATES.includes(argTemplate) ? null : "select",
-          name: "framework",
+            argTemplate && TEMPLATES.includes(argTemplate) ? null : 'select',
+          name: 'framework',
           message:
-            typeof argTemplate === "string" && !TEMPLATES.includes(argTemplate)
-              ? reset(`模板 "${argTemplate}" 不存在。请从下面模板中选择:`)
-              : reset("请选择一个模板构建项目:"),
+            typeof argTemplate === 'string' && !TEMPLATES.includes(argTemplate)
+              ? chalk.reset(`模板 "${argTemplate}" 不存在。请从下面模板中选择:`)
+              : chalk.reset('请选择一个模板构建项目:'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
             const frameworkColor = framework.color;
@@ -96,9 +97,9 @@ async function init() {
         },
         {
           type: (framework: Framework) =>
-            framework && framework.variants ? "select" : null,
-          name: "variant",
-          message: reset("请选择一个模板变体:"),
+            framework && framework.variants ? 'select' : null,
+          name: 'variant',
+          message: chalk.reset('请选择一个模板变体:'),
           choices: (framework: Framework) =>
             framework.variants.map((variant) => {
               const variantColor = variant.color;
@@ -111,9 +112,9 @@ async function init() {
       ],
       {
         onCancel: () => {
-          throw new Error(red("✖") + " 操作已取消");
+          throw new Error(chalk.red('✖') + ' 操作已取消');
         },
-      }
+      },
     );
   } catch (cancelled: any) {
     console.log(cancelled.message);
@@ -132,12 +133,17 @@ async function init() {
 
   let template: string = variant || framework?.name || argTemplate;
 
-  console.log(`\n项目正在目录 ${root} 搭建中...`);
+  const spinner = ora('Loading unicorns').start();
+
+  setTimeout(() => {
+    spinner.color = 'yellow';
+    spinner.text = 'Loading rainbows';
+  }, 1000);
 
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
-    "../..",
-    `template-${template}`
+    '../..',
+    `template-${template}`,
   );
 
   const write = (file: string, content?: string) => {
@@ -150,28 +156,28 @@ async function init() {
   };
 
   const files = fs.readdirSync(templateDir);
-  for (const file of files.filter((f) => f !== "package.json")) {
+  for (const file of files.filter((f) => f !== 'package.json')) {
     write(file);
   }
 
   /** 根据用户输入的项目名称或者默认的名称来修改 package.json 文件中的 name 字段 */
   const pkg = JSON.parse(
-    fs.readFileSync(path.join(templateDir, `package.json`), "utf-8")
+    fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'),
   );
 
   pkg.name = packageName || getProjectName();
 
-  write("package.json", JSON.stringify(pkg, null, 2) + "\n");
+  write('package.json', JSON.stringify(pkg, null, 2) + '\n');
 
   const cdProjectName = path.relative(cwd, root);
 
-  console.log(`\n搭建成功，请继续输入:\n`);
+  spinner.succeed('搭建成功，请继续输入:')
 
   if (root !== cwd) {
     console.log(
       `  cd ${
-        cdProjectName.includes(" ") ? `"${cdProjectName}"` : cdProjectName
-      }`
+        cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+      }`,
     );
   }
 
@@ -181,13 +187,13 @@ async function init() {
 
 /** 去掉两端空格，并替换掉字符串末尾的一个或多个斜杠（/），以确保目标目录的格式正确 */
 function formatTargetDir(targetDir: string | undefined) {
-  return targetDir?.trim().replace(/\/+$/g, "");
+  return targetDir?.trim().replace(/\/+$/g, '');
 }
 
 /** 验证用户输入的项目名称是否符合命名规范 */
 function isValidPackageName(projectName: string) {
   return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
-    projectName
+    projectName,
   );
 }
 
@@ -196,9 +202,9 @@ function toValidPackageName(projectName: string) {
   return projectName
     .trim()
     .toLowerCase()
-    .replace(/\s+/g, "-") // 匹配所有空格，并用连字符 - 替换
-    .replace(/^[._]/, "") // 匹配开头的点号或下划线，将其删除
-    .replace(/[^a-z\d\-~]+/g, "-"); // 匹配所有非小写字母、数字、连字符、波浪线的字符，并用连字符 - 替换
+    .replace(/\s+/g, '-') // 匹配所有空格，并用连字符 - 替换
+    .replace(/^[._]/, '') // 匹配开头的点号或下划线，将其删除
+    .replace(/[^a-z\d\-~]+/g, '-'); // 匹配所有非小写字母、数字、连字符、波浪线的字符，并用连字符 - 替换
 }
 
 /** 将一个目录下的所有文件和子目录复制到另一个目录中 */
@@ -224,7 +230,7 @@ function copy(src: string, dest: string) {
 /** 判断项目目录是否为空 */
 function isEmpty(path: string) {
   const files = fs.readdirSync(path);
-  return files.length === 0 || (files.length === 1 && files[0] === ".git");
+  return files.length === 0 || (files.length === 1 && files[0] === '.git');
 }
 
 /** 清空指定目录下的所有文件和子目录 */
@@ -233,7 +239,7 @@ function emptyDir(dir: string) {
     return;
   }
   for (const file of fs.readdirSync(dir)) {
-    if (file === ".git") {
+    if (file === '.git') {
       continue;
     }
     fs.rmSync(path.resolve(dir, file), { recursive: true, force: true });
