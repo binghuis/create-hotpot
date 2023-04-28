@@ -8,11 +8,6 @@ import ora from 'ora';
 import { FRAMEWORKS } from './constant';
 import { Framework } from './types';
 
-/** 文件名映射表 */
-const renameFiles: Record<string, string | undefined> = {
-  _gitignore: '.gitignore',
-};
-
 const argv = minimist<{
   t?: string;
   template?: string;
@@ -27,9 +22,7 @@ const TEMPLATES = FRAMEWORKS.map(
 const defaultTargetDir = 'my-hotpot-project';
 
 async function init() {
-  /** 表示用户在命令行中输入的第一个非选项参数，即目标目录的名称 */
   const argTargetDir = formatTargetDir(argv._[0]);
-  /** 获取命令行参数 --template 或 -t 的值 */
   const argTemplate = argv.template || argv.t;
 
   let targetDir = argTargetDir || defaultTargetDir;
@@ -147,7 +140,7 @@ async function init() {
   );
 
   const write = (file: string, content?: string) => {
-    const targetPath = path.join(root, renameFiles[file] ?? file);
+    const targetPath = path.join(root, file);
     if (content) {
       fs.writeFileSync(targetPath, content);
     } else {
