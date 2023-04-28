@@ -20,9 +20,6 @@
     "prepublishOnly": "pnpm run build",
     "preinstall": "npx only-allow pnpm"
   },
-  "engines": {
-    "node": "^14.18.0 || >=16.0.0"
-  },
   "bugs": {
     "url": "https://github.com/binghuis/create-hotpot/issues"
   },
@@ -30,7 +27,6 @@
   "devDependencies": {
     "@types/minimist": "^1.2.2",
     "@types/prompts": "^2.4.2",
-    "chalk": "^5.2.0",
     "gitly": "^2.4.2",
     "kolorist": "^1.6.0",
     "minimist": "^1.2.7",

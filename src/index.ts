@@ -1,15 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { cyan, green, yellow } from 'kolorist';
-
+import { reset, red } from 'kolorist';
 import minimist from 'minimist';
 import prompts from 'prompts';
-import chalk from 'chalk';
 import ora from 'ora';
+import gitly from 'gitly';
 import { FRAMEWORKS } from './constant';
 import { Framework } from './types';
-import gitly from 'gitly';
 
 const argv = minimist<{
   t?: string;
@@ -45,7 +43,7 @@ async function init() {
         {
           type: argTargetDir ? null : 'text',
           name: 'projectName',
-          message: chalk.reset('项目名:'),
+          message: reset('项目名:'),
           initial: defaultTargetDir,
           onState: (state) => {
             targetDir = formatTargetDir(state.value) || defaultTargetDir;
@@ -62,7 +60,7 @@ async function init() {
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
             if (overwrite === false) {
-              throw new Error(chalk.red('✖') + ' 操作已取消');
+              throw new Error(red('✖') + ' 操作已取消');
             }
             return null;
           },
@@ -71,7 +69,7 @@ async function init() {
         {
           type: () => (isValidPackageName(getProjectName()) ? null : 'text'),
           name: 'packageName',
-          message: chalk.reset('输入 package.json 名:'),
+          message: reset('输入 package.json 名:'),
           initial: () => toValidPackageName(getProjectName()),
           validate: (dir) =>
             isValidPackageName(dir) || '无效的 package.json 名，请重新输入',
@@ -82,8 +80,8 @@ async function init() {
           name: 'framework',
           message:
             typeof argTemplate === 'string' && !TEMPLATES.includes(argTemplate)
-              ? chalk.reset(`模板 "${argTemplate}" 不存在。请从下面模板中选择:`)
-              : chalk.reset('请选择一个模板构建项目:'),
+              ? reset(`模板 "${argTemplate}" 不存在。请从下面模板中选择:`)
+              : reset('请选择一个项目模板:'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
             const frameworkColor = framework.color;
@@ -97,7 +95,7 @@ async function init() {
           type: (framework: Framework) =>
             framework && framework.variants ? 'select' : null,
           name: 'variant',
-          message: chalk.reset('请选择一个模板变体:'),
+          message: reset('请选择一个模板变体:'),
           choices: (framework: Framework) =>
             framework.variants.map((variant) => {
               const variantColor = variant.color;
@@ -110,7 +108,7 @@ async function init() {
       ],
       {
         onCancel: () => {
-          throw new Error(chalk.red('✖') + ' 操作已取消');
+          throw new Error(red('✖') + ' 操作已取消');
         },
       },
     );
@@ -131,13 +129,13 @@ async function init() {
 
   const template: string = variant || framework?.name || argTemplate;
 
-  spinner.start('休息，休息一下，模板代码正在下载 🐢');
+  spinner.start('休息一下，模板正在生成 🐢');
 
   await gitly('binghuis/template-react-desktop', path.join(cwd, 'test'), {});
 
   const cdProjectName = path.relative(cwd, root);
 
-  spinner.succeed('搭建成功，请继续输入:');
+  spinner.succeed('搭建成功，请继续:');
 
   if (root !== cwd) {
     console.log(
