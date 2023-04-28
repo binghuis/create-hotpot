@@ -24,7 +24,7 @@ const TEMPLATES = FRAMEWORKS.map(
   (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name],
 ).reduce((a, b) => a.concat(b), []);
 
-const defaultTargetDir = 'my-hotpop-project';
+const defaultTargetDir = 'my-hotpot-project';
 
 async function init() {
   /** 表示用户在命令行中输入的第一个非选项参数，即目标目录的名称 */

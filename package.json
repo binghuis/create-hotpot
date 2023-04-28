@@ -1,12 +1,12 @@
 {
-  "name": "create-hotpop",
+  "name": "create-hotpot",
   "version": "0.0.2",
   "type": "module",
   "license": "MIT",
   "author": "binghuis",
   "bin": {
-    "create-hotpop": "index.js",
-    "hotpop": "index.js"
+    "create-hotpot": "index.js",
+    "hotpot": "index.js"
   },
   "files": [
     "index.js",
@@ -24,9 +24,9 @@
     "node": "^14.18.0 || >=16.0.0"
   },
   "bugs": {
-    "url": "https://github.com/binghuis/create-hotpop/issues"
+    "url": "https://github.com/binghuis/create-hotpot/issues"
   },
-  "homepage": "https://github.com/binghuis/create-hotpop/blob/main/README.md",
+  "homepage": "https://github.com/binghuis/create-hotpot/blob/main/README.md",
   "devDependencies": {
     "@types/minimist": "^1.2.2",
     "@types/prompts": "^2.4.2",
