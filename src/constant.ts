@@ -11,6 +11,7 @@ const FRAMEWORKS: Framework[] = [
         name: "react-desktop",
         display: "React",
         color: yellow,
+        repo: 'binghuis/template-react-desktop'
       },
       {
         name: "vue-desktop",

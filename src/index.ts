@@ -1,12 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { cyan, green, yellow } from 'kolorist';
+
 import minimist from 'minimist';
 import prompts from 'prompts';
 import chalk from 'chalk';
 import ora from 'ora';
 import { FRAMEWORKS } from './constant';
 import { Framework } from './types';
+import gitly from 'gitly';
 
 const argv = minimist<{
   t?: string;
@@ -19,9 +22,11 @@ const TEMPLATES = FRAMEWORKS.map(
   (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name],
 ).reduce((a, b) => a.concat(b), []);
 
-const defaultTargetDir = 'my-hotpot-project';
+const defaultTargetDir = 'my-hotpot';
 
 async function init() {
+  const spinner = ora();
+
   const argTargetDir = formatTargetDir(argv._[0]);
   const argTemplate = argv.template || argv.t;
 
@@ -124,47 +129,15 @@ async function init() {
     fs.mkdirSync(root, { recursive: true });
   }
 
-  let template: string = variant || framework?.name || argTemplate;
+  const template: string = variant || framework?.name || argTemplate;
 
-  const spinner = ora('Loading unicorns').start();
+  spinner.start('休息，休息一下🍵，模板代码正在下载✨');
 
-  setTimeout(() => {
-    spinner.color = 'yellow';
-    spinner.text = 'Loading rainbows';
-  }, 1000);
-
-  const templateDir = path.resolve(
-    fileURLToPath(import.meta.url),
-    '../..',
-    `template-${template}`,
-  );
-
-  const write = (file: string, content?: string) => {
-    const targetPath = path.join(root, file);
-    if (content) {
-      fs.writeFileSync(targetPath, content);
-    } else {
-      copy(path.join(templateDir, file), targetPath);
-    }
-  };
-
-  const files = fs.readdirSync(templateDir);
-  for (const file of files.filter((f) => f !== 'package.json')) {
-    write(file);
-  }
-
-  /** 根据用户输入的项目名称或者默认的名称来修改 package.json 文件中的 name 字段 */
-  const pkg = JSON.parse(
-    fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'),
-  );
-
-  pkg.name = packageName || getProjectName();
-
-  write('package.json', JSON.stringify(pkg, null, 2) + '\n');
+  await gitly('binghuis/template-react-desktop', path.join(cwd, 'test'), {});
 
   const cdProjectName = path.relative(cwd, root);
 
-  spinner.succeed('搭建成功，请继续输入:')
+  spinner.succeed('搭建成功，请继续输入:');
 
   if (root !== cwd) {
     console.log(
@@ -200,25 +173,7 @@ function toValidPackageName(projectName: string) {
     .replace(/[^a-z\d\-~]+/g, '-'); // 匹配所有非小写字母、数字、连字符、波浪线的字符，并用连字符 - 替换
 }
 
-/** 将一个目录下的所有文件和子目录复制到另一个目录中 */
-function copyDir(srcDir: string, destDir: string) {
-  fs.mkdirSync(destDir, { recursive: true });
-  for (const file of fs.readdirSync(srcDir)) {
-    const srcFile = path.resolve(srcDir, file);
-    const destFile = path.resolve(destDir, file);
-    copy(srcFile, destFile);
-  }
-}
 
-/** 将一个文件或目录复制到另一个位置 */
-function copy(src: string, dest: string) {
-  const stat = fs.statSync(src);
-  if (stat.isDirectory()) {
-    copyDir(src, dest);
-  } else {
-    fs.copyFileSync(src, dest);
-  }
-}
 
 /** 判断项目目录是否为空 */
 function isEmpty(path: string) {

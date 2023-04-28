@@ -11,4 +11,5 @@ export type FrameworkVariant = {
   name: string;
   display: string;
   color: ColorFunc;
+  repo?: string;
 };
