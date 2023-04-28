@@ -131,7 +131,7 @@ async function init() {
 
   const template: string = variant || framework?.name || argTemplate;
 
-  spinner.start('休息，休息一下🍵，模板代码正在下载✨');
+  spinner.start('休息，休息一下，模板代码正在下载 🐢');
 
   await gitly('binghuis/template-react-desktop', path.join(cwd, 'test'), {});
 
@@ -172,8 +172,6 @@ function toValidPackageName(projectName: string) {
     .replace(/^[._]/, '') // 匹配开头的点号或下划线，将其删除
     .replace(/[^a-z\d\-~]+/g, '-'); // 匹配所有非小写字母、数字、连字符、波浪线的字符，并用连字符 - 替换
 }
-
-
 
 /** 判断项目目录是否为空 */
 function isEmpty(path: string) {
