@@ -20,6 +20,9 @@
     "prepublishOnly": "pnpm run build",
     "preinstall": "npx only-allow pnpm"
   },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
+  },
   "bugs": {
     "url": "https://github.com/binghuis/create-hotpot/issues"
   },
@@ -33,6 +36,7 @@
     "only-allow": "^1.1.1",
     "ora": "^6.3.0",
     "prompts": "^2.4.2",
+    "release-it": "^15.10.1",
     "rollup": "^3.17.2",
     "unbuild": "^1.1.2",
     "write-pkg": "^5.1.0"

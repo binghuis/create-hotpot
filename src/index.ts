@@ -1,13 +1,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { reset, red } from 'kolorist';
+import { reset, red, yellow } from 'kolorist';
 import minimist from 'minimist';
 import prompts from 'prompts';
 import ora from 'ora';
 import gitly from 'gitly';
+import { writePackage } from 'write-pkg';
 import { FRAMEWORKS } from './constant';
-import { Framework } from './types';
+import { Framework } from './type';
+import {
+  cleanDir,
+  findRepoByName,
+  formatTargetDir,
+  isEmpty,
+  isValidPackageName,
+  toValidPackageName,
+} from './tool';
 
 const argv = minimist<{
   t?: string;
@@ -26,6 +34,7 @@ async function init() {
   const spinner = ora();
 
   const argTargetDir = formatTargetDir(argv._[0]);
+
   const argTemplate = argv.template || argv.t;
 
   let targetDir = argTargetDir || defaultTargetDir;
@@ -69,10 +78,10 @@ async function init() {
         {
           type: () => (isValidPackageName(getProjectName()) ? null : 'text'),
           name: 'packageName',
-          message: reset('输入 package.json 名:'),
+          message: reset('输入 packageName:'),
           initial: () => toValidPackageName(getProjectName()),
           validate: (dir) =>
-            isValidPackageName(dir) || '无效的 package.json 名，请重新输入',
+            isValidPackageName(dir) || '无效的 packageName，请重新输入',
         },
         {
           type:
@@ -121,21 +130,32 @@ async function init() {
 
   const root = path.join(cwd, targetDir);
 
+  const template: string = variant || framework?.name || argTemplate;
+
+  const repo = findRepoByName(template, FRAMEWORKS);
+
+  if (!repo) {
+    console.log(`  ${yellow('当前模板暂未发布 🐶')}`);
+    return;
+  }
+
   if (overwrite) {
-    emptyDir(root);
+    cleanDir(root);
   } else if (!fs.existsSync(root)) {
     fs.mkdirSync(root, { recursive: true });
   }
 
-  const template: string = variant || framework?.name || argTemplate;
-
   spinner.start('休息一下，模板正在生成 🐢');
 
-  await gitly('binghuis/template-react-desktop', path.join(cwd, 'test'), {});
+  await gitly(repo, root, {});
 
-  const cdProjectName = path.relative(cwd, root);
+  if (packageName) {
+    writePackage(path.join(root, 'package.json'), { name: packageName });
+  }
 
   spinner.succeed('搭建成功，请继续:');
+
+  const cdProjectName = path.relative(cwd, root);
 
   if (root !== cwd) {
     console.log(
@@ -147,47 +167,6 @@ async function init() {
 
   console.log(`  pnpm i`);
   console.log(`  pnpm dev`);
-}
-
-/** 去掉两端空格，并替换掉字符串末尾的一个或多个斜杠（/），以确保目标目录的格式正确 */
-function formatTargetDir(targetDir: string | undefined) {
-  return targetDir?.trim().replace(/\/+$/g, '');
-}
-
-/** 验证用户输入的项目名称是否符合命名规范 */
-function isValidPackageName(projectName: string) {
-  return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
-    projectName,
-  );
-}
-
-/** 将用户输入的项目名称转换为一个符合命名规范的字符串 */
-function toValidPackageName(projectName: string) {
-  return projectName
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '-') // 匹配所有空格，并用连字符 - 替换
-    .replace(/^[._]/, '') // 匹配开头的点号或下划线，将其删除
-    .replace(/[^a-z\d\-~]+/g, '-'); // 匹配所有非小写字母、数字、连字符、波浪线的字符，并用连字符 - 替换
-}
-
-/** 判断项目目录是否为空 */
-function isEmpty(path: string) {
-  const files = fs.readdirSync(path);
-  return files.length === 0 || (files.length === 1 && files[0] === '.git');
-}
-
-/** 清空指定目录下的所有文件和子目录 */
-function emptyDir(dir: string) {
-  if (!fs.existsSync(dir)) {
-    return;
-  }
-  for (const file of fs.readdirSync(dir)) {
-    if (file === '.git') {
-      continue;
-    }
-    fs.rmSync(path.resolve(dir, file), { recursive: true, force: true });
-  }
 }
 
 init().catch((e) => {
