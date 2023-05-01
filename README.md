@@ -2,7 +2,7 @@
 
 <div align="left">
 
-`create-hotpot` 是一个用于快速构建个人项目的 cli 工具。
+`create-hotpot` 是一个用于快速构建个人项目的 CLI 工具。
 
 [![npm version](https://img.shields.io/npm/v/create-hotpot?style=flat-square)](https://www.npmjs.com/package/create-hotpot)
 
