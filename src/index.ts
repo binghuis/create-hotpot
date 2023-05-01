@@ -6,7 +6,7 @@ import prompts from 'prompts';
 import ora from 'ora';
 import gitly from 'gitly';
 import FileJson from '@srzorro/file-json';
-import { FRAMEWORKS } from './constant';
+import { FRAMEWORKS } from './template';
 import type { PackageJson } from 'type-fest';
 import { Framework } from './type';
 import {
