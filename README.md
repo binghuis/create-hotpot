@@ -1,6 +1,12 @@
 # Create-Hotpot
 
-`create-hotpot` 是一个命令行工具，用于快速生成项目模板。
+<div align="left">
+
+`create-hotpot` 是一个用于快速构建个人项目的 cli 工具。
+
+[![npm version](https://img.shields.io/npm/v/create-hotpot?style=flat-square)](https://www.npmjs.com/package/create-hotpot)
+
+</div>
 
 ## 使用
 
@@ -17,4 +23,3 @@ pnpm create hotpot <project-directory>
 ```
 pnpm create hotpot -t react-desktop
 ```
-
