@@ -78,10 +78,10 @@ async function init() {
         {
           type: () => (isValidPackageName(getProjectName()) ? null : 'text'),
           name: 'packageName',
-          message: reset('输入 packageName:'),
+          message: reset('输入 Package Name:'),
           initial: () => toValidPackageName(getProjectName()),
           validate: (dir) =>
-            isValidPackageName(dir) || '无效的 packageName，请重新输入',
+            isValidPackageName(dir) || '无效的 Package Name，请重新输入',
         },
         {
           type:
@@ -93,9 +93,9 @@ async function init() {
               : reset('请选择一个项目模板:'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
-            const frameworkColor = framework.color;
+            const { color, display, name } = framework;
             return {
-              title: frameworkColor(framework.display || framework.name),
+              title: color(display || name),
               value: framework,
             };
           }),
@@ -106,11 +106,10 @@ async function init() {
           name: 'variant',
           message: reset('请选择一个模板变体:'),
           choices: (framework: Framework) =>
-            framework.variants.map((variant) => {
-              const variantColor = variant.color;
+            framework.variants.map(({ color, display, name }) => {
               return {
-                title: variantColor(variant.display || variant.name),
-                value: variant.name,
+                title: color(display || name),
+                value: name,
               };
             }),
         },
