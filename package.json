@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/minimist": "^1.2.2",
     "@types/prompts": "^2.4.2",
+    "auto-changelog": "^2.4.0",
     "gitly": "^2.4.2",
     "kolorist": "^1.6.0",
     "minimist": "^1.2.7",
