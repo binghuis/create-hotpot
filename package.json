@@ -1,23 +1,21 @@
 {
   "name": "create-hotpot",
   "version": "0.0.2",
-  "type": "module",
+  "type": "commonjs",
   "license": "MIT",
   "author": "binghuis",
   "bin": {
-    "create-hotpot": "index.js",
-    "hotpot": "index.js"
+    "create-hotpot": "dist/index.cjs",
+    "hotpot": "dist/index.cjs"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
+  "main": "dist/index.cjs",
   "scripts": {
-    "dev": "unbuild --stub",
-    "build": "unbuild",
-    "typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build",
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "release": "release-it",
     "preinstall": "npx only-allow pnpm"
   },
   "engines": {
@@ -38,8 +36,8 @@
     "ora": "^6.3.0",
     "prompts": "^2.4.2",
     "release-it": "^15.10.1",
-    "rollup": "^3.17.2",
-    "unbuild": "^1.1.2",
+    "terser": "^5.17.1",
+    "tsup": "^6.7.0",
     "write-pkg": "^5.1.0"
   }
 }
