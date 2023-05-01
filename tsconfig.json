@@ -4,9 +4,8 @@
     "__tests__"
   ],
   "compilerOptions": {
-    "outDir": "dist",
-    "target": "ES2022",
-    "module": "ES2022",
+    "target": "ESNext",
+    "module": "CommonJS",
     "strict": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,

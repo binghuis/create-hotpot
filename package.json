@@ -5,13 +5,13 @@
   "license": "MIT",
   "author": "binghuis",
   "bin": {
-    "create-hotpot": "dist/index.cjs",
-    "hotpot": "dist/index.cjs"
+    "create-hotpot": "dist/index.js",
+    "hotpot": "dist/index.js"
   },
   "files": [
     "dist"
   ],
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
