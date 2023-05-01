@@ -5,8 +5,9 @@ import minimist from 'minimist';
 import prompts from 'prompts';
 import ora from 'ora';
 import gitly from 'gitly';
-import { writePackage } from 'write-pkg';
+import FileJson from '@srzorro/file-json';
 import { FRAMEWORKS } from './constant';
+import type { PackageJson } from 'type-fest';
 import { Framework } from './type';
 import {
   cleanDir,
@@ -148,8 +149,13 @@ async function init() {
 
   await gitly(repo, root, {});
 
-  if (packageName) {
-    writePackage(path.join(root, 'package.json'), { name: packageName });
+  const pkgName = packageName ?? getProjectName();
+
+  if (pkgName) {
+    const pkg = new FileJson<PackageJson>(path.join(root, 'package.json'));
+    await pkg.r();
+    pkg.d.name = pkgName;
+    await pkg.w();
   }
 
   spinner.succeed('搭建成功，请继续:');
