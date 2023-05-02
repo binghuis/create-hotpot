@@ -63,9 +63,9 @@ async function init() {
           type: () =>
             !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
           name: 'overwrite',
-          message: () =>
-            (targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}"`) +
-            ` 已存在文件。是否清空并继续创建？`,
+          message:
+            (targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}" `) +
+            `已存在文件。是否清空并继续创建？`,
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {

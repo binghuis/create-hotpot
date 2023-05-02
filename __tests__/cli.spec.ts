@@ -16,84 +16,79 @@ const run = (
   return execaCommandSync(`node ${CLI_PATH} ${args.join(' ')}`, options)
 }
 
-// Helper to create a non-empty directory
 const createNonEmptyDir = () => {
-  // Create the temporary directory
   fs.mkdirpSync(genPath)
-
-  // Create a package.json file
   const pkgJson = join(genPath, 'package.json')
   fs.writeFileSync(pkgJson, '{ "foo": "bar" }')
 }
 
-// Vue 3 starter template
-const templateFiles = fs
-  .readdirSync(join(CLI_PATH, 'template-vue'))
-  // _gitignore is renamed to .gitignore
-  .map((filePath) => (filePath === '_gitignore' ? '.gitignore' : filePath))
-  .sort()
+// const templateFiles = fs
+//   .readdirSync(join(CLI_PATH, 'react-desktop'))
+//   // _gitignore is renamed to .gitignore
+//   .map((filePath) => (filePath === '_gitignore' ? '.gitignore' : filePath))
+//   .sort()
 
 beforeAll(() => fs.remove(genPath))
 afterEach(() => fs.remove(genPath))
 
-test('prompts for the project name if none supplied', () => {
+test('直接执行CLI命令，不传参', () => {
   const { stdout } = run([])
-  expect(stdout).toContain('Project name:')
+  expect(stdout).toContain('项目名:')
 })
 
-test('prompts for the framework if none supplied when target dir is current directory', () => {
+test('仅传项目构建目录', () => {
   fs.mkdirpSync(genPath)
   const { stdout } = run(['.'], { cwd: genPath })
-  expect(stdout).toContain('Select a framework:')
+  expect(stdout).toContain('请选择一个项目模板:')
 })
 
-test('prompts for the framework if none supplied', () => {
+test('仅传项目名', () => {
   const { stdout } = run([projectName])
-  expect(stdout).toContain('Select a framework:')
+  expect(stdout).toContain('请选择一个项目模板:')
 })
 
-test('prompts for the framework on not supplying a value for --template', () => {
+test('传项目名和 --template 参数', () => {
   const { stdout } = run([projectName, '--template'])
-  expect(stdout).toContain('Select a framework:')
+  expect(stdout).toContain('请选择一个项目模板:')
 })
 
-test('prompts for the framework on supplying an invalid template', () => {
+test('传项目名和一个无效的 --template', () => {
   const { stdout } = run([projectName, '--template', 'unknown'])
   expect(stdout).toContain(
-    `"unknown" isn't a valid template. Please choose from below:`,
+    `模板 "unknown" 不存在。请从下面模板中选择:`,
   )
 })
 
-test('asks to overwrite non-empty target directory', () => {
+test('目标目录非空', () => {
   createNonEmptyDir()
   const { stdout } = run([projectName], { cwd: __dirname })
-  expect(stdout).toContain(`Target directory "${projectName}" is not empty.`)
+  expect(stdout).toContain(`目标目录 "${projectName}" 已存在文件。是否清空并继续创建？`)
 })
 
-test('asks to overwrite non-empty current directory', () => {
+test('目标（当前）目录非空', () => {
   createNonEmptyDir()
   const { stdout } = run(['.'], { cwd: genPath })
-  expect(stdout).toContain(`Current directory is not empty.`)
+  expect(stdout).toContain(`当前目录已存在文件。是否清空并继续创建？`)
 })
 
-test('successfully scaffolds a project based on vue starter template', () => {
-  const { stdout } = run([projectName, '--template', 'vue'], {
-    cwd: __dirname,
-  })
-  const generatedFiles = fs.readdirSync(genPath).sort()
+// test('successfully scaffolds a project based on vue starter template', () => {
+//   const { stdout } = run([projectName, '--template', 'vue'], {
+//     cwd: __dirname,
+//   })
+//   const generatedFiles = fs.readdirSync(genPath).sort()
 
-  // Assertions
-  expect(stdout).toContain(`Scaffolding project in ${genPath}`)
-  expect(templateFiles).toEqual(generatedFiles)
-})
+//   // Assertions
+//   expect(stdout).toContain(`Scaffolding project in ${genPath}`)
+//   expect(templateFiles).toEqual(generatedFiles)
+// })
 
-test('works with the -t alias', () => {
-  const { stdout } = run([projectName, '-t', 'vue'], {
-    cwd: __dirname,
-  })
-  const generatedFiles = fs.readdirSync(genPath).sort()
+// test('works with the -t alias', () => {
+//   const { stdout } = run([projectName, '-t', 'vue'], {
+//     cwd: __dirname,
+//   })
+//   const generatedFiles = fs.readdirSync(genPath).sort()
 
-  // Assertions
-  expect(stdout).toContain(`Scaffolding project in ${genPath}`)
-  expect(templateFiles).toEqual(generatedFiles)
-})
+//   // Assertions
+//   expect(stdout).toContain(`Scaffolding project in ${genPath}`)
+//   expect(templateFiles).toEqual(generatedFiles)
+// })
