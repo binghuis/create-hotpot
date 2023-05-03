@@ -10,16 +10,22 @@
 
 ## 使用
 
-在终端中输入以下命令来使用该工具：
+在终端中直接输入以下命令来使用该工具：
+
+```
+pnpm create hotpot
+```
+
+通过命令行参数指定项目生成目录
 
 ```
 pnpm create hotpot <project-directory>
 ```
 
-`<project-directory>` 参数是可选的，如果不传，则默认使用 `my-hotpot` 作为项目目录名称。
+## 选项
 
-该命令会询问一些选项来生成项目。比如，选择项目模板，指定项目名称和包名称等。可以通过 `-t` 或 `--template` 选项来指定项目模板，如下所示：
+- `-t` 或者 `--template`: 指定项目模板
 
-```
-pnpm create hotpot -t react-desktop
-```
+  ```
+  pnpm create hotpot -t <template>
+  ```
