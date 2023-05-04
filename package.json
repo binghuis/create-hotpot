@@ -1,6 +1,6 @@
 {
   "name": "create-hotpot",
-  "version": "1.1.0-0",
+  "version": "1.1.1",
   "description": "A CLI tool for quickly building personal projects.",
   "keywords": [
     "cli",
@@ -28,7 +28,7 @@
     "node": ">=16.0.0"
   },
   "bugs": "https://github.com/binghuis/create-hotpot/issues",
-  "homepage": "https://github.com/binghuis/create-hotpot/blob/main/README.md",
+  "homepage": "https://github.com/binghuis/create-hotpot/blob/main",
   "devDependencies": {
     "@srzorro/file-json": "^1.1.0",
     "@types/fs-extra": "^11.0.1",
