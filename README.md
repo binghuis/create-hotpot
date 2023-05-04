@@ -2,29 +2,29 @@
 
 <div align="left">
 
-`create-hotpot` 是一个用于快速构建个人项目的 CLI 工具。
+`create-hotpot` is a CLI tool for quickly building personal projects.
 
 [![npm version](https://img.shields.io/npm/v/create-hotpot?style=flat-square)](https://www.npmjs.com/package/create-hotpot)
 
 </div>
 
-## 使用
+## How to Use
 
-在终端中直接输入以下命令来使用该工具：
+To use this tool directly in the terminal, simply enter the following command:
 
 ```
 pnpm create hotpot
 ```
 
-通过命令行参数指定项目生成目录
+Specify the project generation directory through command line arguments.
 
 ```
 pnpm create hotpot <project-directory>
 ```
 
-## 选项
+## Options
 
-- `-t` 或者 `--template`: 指定项目模板
+- `-t` or `--template`: Specify the project template.
 
   ```
   pnpm create hotpot -t <template>
