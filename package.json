@@ -10,8 +10,7 @@
   "license": "MIT",
   "author": "binghuis",
   "bin": {
-    "create-hotpot": "dist/index.js",
-    "hotpot": "dist/index.js"
+    "create-hotpot": "dist/index.js"
   },
   "files": [
     "dist"
