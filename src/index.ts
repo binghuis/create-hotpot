@@ -1,14 +1,4 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { reset, red, yellow } from 'kolorist';
-import minimist from 'minimist';
-import prompts from 'prompts';
-import ora from 'ora';
-import gitly from 'gitly';
-import FileJson from '@srzorro/file-json';
 import { FRAMEWORKS } from './template';
-import type { PackageJson } from 'type-fest';
-import { Framework } from './type';
 import {
   cleanDir,
   findRepoByName,
@@ -17,6 +7,16 @@ import {
   isValidPackageName,
   toValidPackageName,
 } from './tool';
+import { Framework } from './type';
+import FileJson from '@srzorro/file-json';
+import gitly from 'gitly';
+import { red, reset, yellow } from 'kolorist';
+import minimist from 'minimist';
+import fs from 'node:fs';
+import path from 'node:path';
+import ora from 'ora';
+import prompts from 'prompts';
+import type { PackageJson } from 'type-fest';
 
 const argv = minimist<{
   t?: string;
@@ -26,7 +26,7 @@ const argv = minimist<{
 const cwd = process.cwd();
 
 const TEMPLATES = FRAMEWORKS.map(
-  (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name],
+  (f) => (f.variants?.map((v) => v.name)) || [f.name],
 ).reduce((a, b) => a.concat(b), []);
 
 const defaultTargetDir = 'my-hotpot';
@@ -64,13 +64,12 @@ async function init() {
             !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
           name: 'overwrite',
           message:
-            (targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}" `) +
-            `已存在文件。是否清空并继续创建？`,
+            `${(targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}" `)}已存在文件。是否清空并继续创建？`,
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
             if (overwrite === false) {
-              throw new Error(red('✖') + ' 操作已取消');
+              throw new Error(`${red('✖')} 操作已取消`);
             }
             return null;
           },
@@ -103,7 +102,7 @@ async function init() {
         },
         {
           type: (framework: Framework) =>
-            framework && framework.variants ? 'select' : null,
+            framework?.variants ? 'select' : null,
           name: 'variant',
           message: reset('请选择一个模板变体:'),
           choices: (framework: Framework) =>
@@ -117,11 +116,12 @@ async function init() {
       ],
       {
         onCancel: () => {
-          throw new Error(red('✖') + ' 操作已取消');
+          throw new Error(`${red('✖')} 操作已取消`);
         },
       },
     );
-  } catch (cancelled: any) {
+  // rome-ignore lint/suspicious/noExplicitAny: <explanation>
+}  catch (cancelled: any) {
     console.log(cancelled.message);
     return;
   }
@@ -170,8 +170,8 @@ async function init() {
     );
   }
 
-  console.log(`  pnpm i`);
-  console.log(`  pnpm dev`);
+  console.log("  pnpm i");
+  console.log("  pnpm dev");
 }
 
 init().catch((e) => {

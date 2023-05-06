@@ -1,6 +1,6 @@
+import { Framework, FrameworkVariant } from './type';
 import fs from 'node:fs';
 import path from 'node:path';
-import { Framework, FrameworkVariant } from './type';
 
 /** 格式化目标目录 */
 export const formatTargetDir = (targetDir: string | undefined) => {

@@ -1,19 +1,19 @@
-import { join } from 'node:path';
+import FileJson from '@srzorro/file-json';
 import type { ExecaSyncReturnValue, SyncOptions } from 'execa';
 import { execaCommandSync } from 'execa';
 import fs from 'fs-extra';
+import gitly from 'gitly';
+import { join } from 'node:path';
+import path from 'node:path';
+import { PackageJson } from 'type-fest';
 import {
   afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
   expect,
   test,
-  describe,
-  beforeEach,
-  beforeAll,
 } from 'vitest';
-import gitly from 'gitly';
-import FileJson from '@srzorro/file-json';
-import { PackageJson } from 'type-fest';
-import path from 'node:path';
 
 const CLI_PATH = join(__dirname, '..');
 
@@ -65,7 +65,7 @@ describe('测试生成结果', async () => {
     });
 
     const generatedFiles = fs.readdirSync(genPath).sort();
-    expect(stdout).toContain(`cd test-app`);
+    expect(stdout).toContain("cd test-app");
     expect(templateFiles).toEqual(generatedFiles);
   });
 
@@ -75,7 +75,7 @@ describe('测试生成结果', async () => {
     });
 
     const generatedFiles = fs.readdirSync(genPath).sort();
-    expect(stdout).toContain(`cd test-app`);
+    expect(stdout).toContain("cd test-app");
     expect(templateFiles).toEqual(generatedFiles);
   });
 });
@@ -117,5 +117,5 @@ test('目标目录非空', () => {
 test('目标（当前）目录非空', () => {
   createNonEmptyDir();
   const { stdout } = run(['.'], { cwd: genPath });
-  expect(stdout).toContain(`当前目录已存在文件。是否清空并继续创建？`);
+  expect(stdout).toContain("当前目录已存在文件。是否清空并继续创建？");
 });
