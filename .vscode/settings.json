@@ -1,4 +1,7 @@
 {
-    "editor.defaultFormatter": "dprint.dprint",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "rome.rome",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports.rome": true
+    }
 }

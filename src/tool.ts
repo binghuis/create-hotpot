@@ -43,7 +43,10 @@ export const cleanDir = (dir: string) => {
   }
 };
 
-export const findRepoByName = (name: string, frameworks: (Framework | FrameworkVariant)[],): string | undefined => {
+export const findRepoByName = (
+  name: string,
+  frameworks: (Framework | FrameworkVariant)[],
+): string | undefined => {
   for (const f of frameworks) {
     if ('variants' in f) {
       return findRepoByName(name, f.variants);

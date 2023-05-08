@@ -65,7 +65,7 @@ describe('测试生成结果', async () => {
     });
 
     const generatedFiles = fs.readdirSync(genPath).sort();
-    expect(stdout).toContain("cd test-app");
+    expect(stdout).toContain('cd test-app');
     expect(templateFiles).toEqual(generatedFiles);
   });
 
@@ -75,7 +75,7 @@ describe('测试生成结果', async () => {
     });
 
     const generatedFiles = fs.readdirSync(genPath).sort();
-    expect(stdout).toContain("cd test-app");
+    expect(stdout).toContain('cd test-app');
     expect(templateFiles).toEqual(generatedFiles);
   });
 });
@@ -117,5 +117,5 @@ test('目标目录非空', () => {
 test('目标（当前）目录非空', () => {
   createNonEmptyDir();
   const { stdout } = run(['.'], { cwd: genPath });
-  expect(stdout).toContain("当前目录已存在文件。是否清空并继续创建？");
+  expect(stdout).toContain('当前目录已存在文件。是否清空并继续创建？');
 });
