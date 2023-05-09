@@ -29,3 +29,7 @@ pnpm create hotpot <project-directory>
   ```
   pnpm create hotpot -t <template>
   ```
+
+## Template
+
+- [react-desktop](https://github.com/binghuis/template-react-desktop)

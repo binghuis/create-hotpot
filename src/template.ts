@@ -4,7 +4,7 @@ import { blue, cyan, green, yellow } from 'kolorist';
 const FRAMEWORKS: Framework[] = [
   {
     name: 'desktop',
-    display: 'Desktop',
+    display: 'Desktop Site',
     color: green,
     variants: [
       {
@@ -22,7 +22,7 @@ const FRAMEWORKS: Framework[] = [
   },
   {
     name: 'mobile',
-    display: 'Mobile',
+    display: 'Mobile Site',
     color: cyan,
     variants: [
       {
