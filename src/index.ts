@@ -145,7 +145,7 @@ async function init() {
     fs.mkdirSync(root, { recursive: true });
   }
 
-  spinner.start('休息一下，模板正在生成 🐢');
+  spinner.start('休息一下，模板正在生成 🧞');
 
   await gitly(repo, root, {});
 
