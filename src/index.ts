@@ -135,7 +135,7 @@ async function init() {
   const repo = findRepoByName(template, FRAMEWORKS);
 
   if (!repo) {
-    consola.log(`  ${yellow('当前模板暂未发布 🐶')}`);
+    console.log(`  ${yellow('当前模板暂未发布 🐶')}`);
     return;
   }
 
@@ -163,15 +163,15 @@ async function init() {
   const cdProjectName = path.relative(cwd, root);
 
   if (root !== cwd) {
-    consola.log(
+    console.log(
       `  cd ${
         cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
       }`,
     );
   }
 
-  consola.log('  pnpm i');
-  consola.log('  pnpm dev');
+  console.log('  pnpm i');
+  console.log('  pnpm dev');
 }
 
 init().catch((e) => {
