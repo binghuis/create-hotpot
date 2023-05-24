@@ -14,7 +14,7 @@ import { red, reset, yellow } from 'kolorist';
 import minimist from 'minimist';
 import fs from 'node:fs';
 import path from 'node:path';
-import { consola, createConsola } from "consola";
+import { consola } from "consola";
 import prompts from 'prompts';
 import type { PackageJson } from 'type-fest';
 
