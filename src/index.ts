@@ -14,7 +14,7 @@ import { red, reset, yellow } from 'kolorist';
 import minimist from 'minimist';
 import fs from 'node:fs';
 import path from 'node:path';
-import ora from 'ora';
+import { consola, createConsola } from "consola";
 import prompts from 'prompts';
 import type { PackageJson } from 'type-fest';
 
@@ -32,7 +32,7 @@ const TEMPLATES = FRAMEWORKS.map(
 const defaultTargetDir = 'my-hotpot';
 
 async function init() {
-  const spinner = ora();
+
 
   const argTargetDir = formatTargetDir(argv._[0]);
 
@@ -122,7 +122,7 @@ async function init() {
       },
     );
   } catch (cancelled: any) {
-    console.log(cancelled.message);
+    consola.warn(cancelled.message);
     return;
   }
 
@@ -135,7 +135,7 @@ async function init() {
   const repo = findRepoByName(template, FRAMEWORKS);
 
   if (!repo) {
-    console.log(`  ${yellow('当前模板暂未发布 🐶')}`);
+    consola.log(`  ${yellow('当前模板暂未发布 🐶')}`);
     return;
   }
 
@@ -145,7 +145,7 @@ async function init() {
     fs.mkdirSync(root, { recursive: true });
   }
 
-  spinner.start('休息一下，模板正在生成 🐢');
+  consola.start('休息一下，模板正在生成 🐢');
 
   await gitly(repo, root, {});
 
@@ -158,22 +158,22 @@ async function init() {
     await pkg.w();
   }
 
-  spinner.succeed('搭建成功，请继续:');
+  consola.success('搭建成功，请继续:');
 
   const cdProjectName = path.relative(cwd, root);
 
   if (root !== cwd) {
-    console.log(
+    consola.log(
       `  cd ${
         cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
       }`,
     );
   }
 
-  console.log('  pnpm i');
-  console.log('  pnpm dev');
+  consola.log('  pnpm i');
+  consola.log('  pnpm dev');
 }
 
 init().catch((e) => {
-  console.error(e);
+  consola.error(new Error(e));
 });

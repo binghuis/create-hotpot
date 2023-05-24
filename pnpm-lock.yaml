@@ -19,6 +19,9 @@ devDependencies:
   auto-changelog:
     specifier: ^2.4.0
     version: 2.4.0
+  consola:
+    specifier: ^3.1.0
+    version: 3.1.0
   execa:
     specifier: ^7.1.1
     version: 7.1.1
@@ -37,9 +40,6 @@ devDependencies:
   only-allow:
     specifier: ^1.1.1
     version: 1.1.1
-  ora:
-    specifier: ^6.3.0
-    version: 6.3.0
   prompts:
     specifier: ^2.4.2
     version: 2.4.2
@@ -1145,6 +1145,10 @@ packages:
       unique-string: 3.0.0
       write-file-atomic: 3.0.3
       xdg-basedir: 5.1.0
+    dev: true
+
+  /consola@3.1.0:
+    resolution: {integrity: sha512-rrrJE6rP0qzl/Srg+C9x/AE5Kxfux7reVm1Wh0wCjuXvih6DqZgqDZe8auTD28fzJ9TF0mHlSDrPpWlujQRo1Q==}
     dev: true
 
   /core-util-is@1.0.3:
