@@ -15,7 +15,7 @@ import {
   test,
 } from 'vitest';
 
-const CLI_PATH = join(__dirname, '..');
+const CLI_PATH = join(__dirname, '../dist/index.js');
 
 const projectName = 'test-app';
 const genPath = join(__dirname, projectName);

@@ -135,7 +135,7 @@ async function init() {
   const repo = findRepoByName(template, FRAMEWORKS);
 
   if (!repo) {
-    console.log(`  ${yellow('当前模板暂未发布 🐶')}`);
+    console.log(`  ${yellow('当前模板暂未发布 ⏳')}`);
     return;
   }
 
@@ -145,7 +145,7 @@ async function init() {
     fs.mkdirSync(root, { recursive: true });
   }
 
-  consola.start('休息一下，模板正在生成 🐢');
+  consola.start('休息一下，模板正在生成 🏂');
 
   await gitly(repo, root, {});
 
