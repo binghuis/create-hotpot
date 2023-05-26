@@ -9,12 +9,12 @@ import {
 } from './tool';
 import { Framework } from './type';
 import FileJson from '@srzorro/file-json';
+import { consola } from "consola";
 import gitly from 'gitly';
-import { red, reset, yellow } from 'kleur/colors';
+import { red, reset } from 'kleur/colors';
 import minimist from 'minimist';
 import fs from 'node:fs';
 import path from 'node:path';
-import { consola } from "consola";
 import prompts from 'prompts';
 import type { PackageJson } from 'type-fest';
 
@@ -63,9 +63,8 @@ async function init() {
           type: () =>
             !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
           name: 'overwrite',
-          message: `${
-            targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}" `
-          }已存在文件。是否清空并继续创建？`,
+          message: `${targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}" `
+            }已存在文件。是否清空并继续创建？`,
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
@@ -135,7 +134,7 @@ async function init() {
   const repo = findRepoByName(template, FRAMEWORKS);
 
   if (!repo) {
-    console.log(`  ${yellow('当前模板暂未发布 ⏳')}`);
+    consola.warn('当前模板暂未发布 ⏳');
     return;
   }
 
@@ -164,8 +163,7 @@ async function init() {
 
   if (root !== cwd) {
     console.log(
-      `  cd ${
-        cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+      `  cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
       }`,
     );
   }

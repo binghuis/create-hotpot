@@ -30,9 +30,6 @@ pnpm create hotpot <project-directory>
   pnpm create hotpot -t <template>
   ```
 
-## Template
+## Templates
 
-- [x] Desktop Site: [react-desktop](https://github.com/binghuis/template-react-desktop)
-- [ ] Official Website: nextjs-ow
-- [ ] Node Server: nestjs-server
-- [ ] Doc:
+- [react-desktop](https://github.com/binghuis/template-react-desktop)
