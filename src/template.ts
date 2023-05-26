@@ -1,5 +1,5 @@
 import { Framework } from './type';
-import { blue, cyan, green, yellow } from 'kolorist';
+import { blue, cyan, green, yellow } from 'kleur/colors';
 
 const FRAMEWORKS: Framework[] = [
   {

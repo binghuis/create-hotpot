@@ -10,7 +10,7 @@ import {
 import { Framework } from './type';
 import FileJson from '@srzorro/file-json';
 import gitly from 'gitly';
-import { red, reset, yellow } from 'kolorist';
+import { red, reset, yellow } from 'kleur/colors';
 import minimist from 'minimist';
 import fs from 'node:fs';
 import path from 'node:path';
