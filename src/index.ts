@@ -9,15 +9,15 @@ import {
 } from './tool';
 import { Framework } from './type';
 import FileJson from '@srzorro/file-json';
-import { consola } from "consola";
+import { consola } from 'consola';
 import gitly from 'gitly';
 import { red, reset } from 'kleur/colors';
 import minimist from 'minimist';
 import fs from 'node:fs';
 import path from 'node:path';
+import ora from 'ora';
 import prompts from 'prompts';
 import type { PackageJson } from 'type-fest';
-
 const argv = minimist<{ t?: string; template?: string }>(
   process.argv.slice(2),
   { string: ['_'] },
@@ -31,9 +31,9 @@ const TEMPLATES = FRAMEWORKS.map(
 
 const defaultTargetDir = 'my-hotpot';
 
+const spinner = ora();
+
 async function init() {
-
-
   const argTargetDir = formatTargetDir(argv._[0]);
 
   const argTemplate = argv.template || argv.t;
@@ -63,8 +63,9 @@ async function init() {
           type: () =>
             !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
           name: 'overwrite',
-          message: `${targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}" `
-            }已存在文件。是否清空并继续创建？`,
+          message: `${
+            targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}" `
+          }已存在文件。是否清空并继续创建？`,
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
@@ -144,7 +145,7 @@ async function init() {
     fs.mkdirSync(root, { recursive: true });
   }
 
-  consola.start('休息一下，模板正在生成 🏂');
+  spinner.start('休息一下，模板正在生成 🏂');
 
   await gitly(repo, root, {});
 
@@ -157,13 +158,14 @@ async function init() {
     await pkg.w();
   }
 
-  consola.success('搭建成功，请继续:');
+  spinner.succeed('搭建成功，请继续:');
 
   const cdProjectName = path.relative(cwd, root);
 
   if (root !== cwd) {
     console.log(
-      `  cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+      `  cd ${
+        cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
       }`,
     );
   }

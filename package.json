@@ -17,7 +17,8 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "test": "vitest --ui",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "dev": "tsup --watch",
     "build": "tsup",
     "release": "release-it",
@@ -42,6 +43,7 @@
     "kleur": "^4.1.5",
     "minimist": "^1.2.8",
     "only-allow": "^1.1.1",
+    "ora": "^6.3.1",
     "prompts": "^2.4.2",
     "release-it": "^15.10.3",
     "rome": "^12.1.2",
