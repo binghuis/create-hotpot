@@ -34,7 +34,7 @@ const defaultTargetDir = 'my-hotpot';
 const spinner = ora();
 
 async function init() {
-  const argTargetDir = formatTargetDir(argv._[0]);
+  const argTargetDir = argv._[0] && formatTargetDir(argv._[0]);
 
   const argTemplate = argv.template || argv.t;
 
@@ -56,7 +56,7 @@ async function init() {
           message: reset('项目名:'),
           initial: defaultTargetDir,
           onState: (state) => {
-            targetDir = formatTargetDir(state.value) || defaultTargetDir;
+            targetDir = formatTargetDir(state.value);
           },
         },
         {
@@ -69,10 +69,10 @@ async function init() {
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
-            if (overwrite === false) {
-              throw new Error(`${red('✖')} 操作已取消`);
+            if (overwrite) {
+              return null;
             }
-            return null;
+            throw new Error(`${red('✖')} 操作已取消`);
           },
           name: 'overwriteChecker',
         },

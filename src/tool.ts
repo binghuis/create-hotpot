@@ -3,8 +3,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 /** 格式化目标目录 */
-export const formatTargetDir = (targetDir: string | undefined) => {
-  return targetDir?.trim().replace(/\/+$/g, '');
+export const formatTargetDir = (targetDir: string) => {
+  return targetDir.trim().replace(/\/+$/g, '');
 };
 
 /** 项目名是否符合规范 */
