@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import { FRAMEWORKS } from './template';
 import {
   cleanDir,

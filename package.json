@@ -10,7 +10,8 @@
   "license": "MIT",
   "author": "binghuis",
   "bin": {
-    "create-hotpot": "dist/index.js"
+    "create-hotpot": "dist/index.js",
+    "hotpot": "dist/index.js"
   },
   "files": [
     "dist"
@@ -21,8 +22,7 @@
     "test:ui": "vitest --ui",
     "dev": "tsup --watch",
     "build": "tsup",
-    "release": "release-it",
-    "preinstall": "npx only-allow pnpm"
+    "release": "release-it"
   },
   "engines": {
     "node": ">=16.0.0"
