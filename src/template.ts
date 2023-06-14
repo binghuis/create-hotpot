@@ -1,51 +1,53 @@
 import { Framework } from './type';
 import { blue, cyan, green, magenta, yellow } from 'kleur/colors';
 
-
 const FRAMEWORKS: Framework[] = [
   {
-    name: 'desktop',
-    display: 'Desktop Site',
+    title: 'Desktop Site',
+    value: 'desktop',
     color: cyan,
     variants: [
       {
-        name: 'react-desktop',
-        display: 'React',
+        title: 'React',
+        value: 'react-desktop',
         color: blue,
         repo: 'binghuis/template-react-desktop',
       },
       {
-        name: 'vue-desktop',
-        display: 'Vue',
+        title: 'Vue',
+        value: 'vue-desktop',
         color: yellow,
+        disabled: true,
       },
     ],
   },
   {
-    name: 'mobile',
-    display: 'Mobile Site',
+    title: 'Mobile Site',
+    value: 'mobile',
     color: green,
+    disabled: true,
     variants: [
       {
-        name: 'react-mobile',
-        display: 'React',
+        title: 'React',
+        value: 'react-mobile',
         color: blue,
       },
       {
-        name: 'vue-mobile',
-        display: 'Vue',
+        title: 'Vue',
+        value: 'vue-mobile',
         color: yellow,
       },
     ],
   },
   {
-    name: 'docs',
-    display: 'Docs',
+    title: 'Docs',
+    value: 'docs',
     color: magenta,
+    disabled: true,
     variants: [
       {
-        name: 'astro-docs',
-        display: 'Astro',
+        value: 'astro-docs',
+        title: 'Astro',
         color: blue,
       },
     ],

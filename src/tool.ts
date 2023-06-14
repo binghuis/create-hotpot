@@ -51,7 +51,7 @@ export const findRepoByName = (
     if ('variants' in f) {
       return findRepoByName(name, f.variants);
     }
-    if ('repo' in f && f.name === name) {
+    if ('repo' in f && f.value === name) {
       return f.repo;
     }
   }

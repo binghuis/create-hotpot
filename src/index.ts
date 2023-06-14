@@ -26,7 +26,7 @@ const argv = minimist<{ t?: string; template?: string }>(
 const cwd = process.cwd();
 
 const TEMPLATES = FRAMEWORKS.map(
-  (f) => f.variants?.map((v) => v.name) || [f.name],
+  (f) => f.variants?.map((v) => v.value) || [f.value],
 ).reduce((a, b) => a.concat(b), []);
 
 const defaultTargetDir = 'my-hotpot';
@@ -38,7 +38,7 @@ async function init() {
 
   const argTemplate = argv.template || argv.t;
 
-  let targetDir = argTargetDir || defaultTargetDir;
+  let targetDir = argTargetDir ?? defaultTargetDir;
 
   const getProjectName = () =>
     targetDir === '.' ? path.basename(path.resolve()) : targetDir;
@@ -56,7 +56,7 @@ async function init() {
           message: reset('项目名:'),
           initial: defaultTargetDir,
           onState: (state) => {
-            targetDir = formatTargetDir(state.value);
+            targetDir = formatTargetDir(state.value) || defaultTargetDir;
           },
         },
         {
@@ -69,10 +69,10 @@ async function init() {
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
-            if (overwrite) {
-              return null;
+            if (overwrite === false) {
+              throw new Error(`${red('✖')} 操作已取消`);
             }
-            throw new Error(`${red('✖')} 操作已取消`);
+            return null;
           },
           name: 'overwriteChecker',
         },
@@ -94,10 +94,12 @@ async function init() {
               : reset('请选择一个项目模板:'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
-            const { color, display, name } = framework;
+            const { color, title, value, disabled, description } = framework;
             return {
-              title: color(display || name),
+              title: color(title || value),
               value: framework,
+              disabled,
+              description,
             };
           }),
         },
@@ -107,12 +109,16 @@ async function init() {
           name: 'variant',
           message: reset('请选择一个模板变体:'),
           choices: (framework: Framework) =>
-            framework.variants.map(({ color, display, name }) => {
-              return {
-                title: color(display || name),
-                value: name,
-              };
-            }),
+            framework.variants.map(
+              ({ color, title, value, disabled, description }) => {
+                return {
+                  title: color(title || value),
+                  value,
+                  disabled,
+                  description,
+                };
+              },
+            ),
         },
       ],
       {

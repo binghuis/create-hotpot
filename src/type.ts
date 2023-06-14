@@ -1,15 +1,14 @@
 export type ColorFunc = (str: string | number) => string;
 
 export type Framework = {
-  name: string;
-  display: string;
+  value: string;
+  title: string;
   color: ColorFunc;
+  disabled?: boolean;
+  description?: string;
   variants: FrameworkVariant[];
 };
 
 export type FrameworkVariant = {
-  name: string;
-  display: string;
-  color: ColorFunc;
   repo?: string;
-};
+} & Omit<Framework, 'variants'>;
