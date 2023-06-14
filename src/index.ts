@@ -11,13 +11,14 @@ import { Framework } from './type';
 import FileJson from '@srzorro/file-json';
 import { consola } from 'consola';
 import gitly from 'gitly';
-import { red, reset } from 'kleur/colors';
+import { grey, red, reset } from 'kleur/colors';
 import minimist from 'minimist';
 import fs from 'node:fs';
 import path from 'node:path';
 import ora from 'ora';
 import prompts from 'prompts';
 import type { PackageJson } from 'type-fest';
+
 const argv = minimist<{ t?: string; template?: string }>(
   process.argv.slice(2),
   { string: ['_'] },
@@ -94,9 +95,9 @@ async function init() {
               : reset('请选择一个项目模板:'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
-            const { color, title, value, disabled, description } = framework;
+            const { color, title, disabled, description } = framework;
             return {
-              title: color(title || value),
+              title: disabled ? grey(title) : color(title),
               value: framework,
               disabled,
               description,
@@ -112,7 +113,7 @@ async function init() {
             framework.variants.map(
               ({ color, title, value, disabled, description }) => {
                 return {
-                  title: color(title || value),
+                  title: disabled ? grey(title) : color(title),
                   value,
                   disabled,
                   description,
