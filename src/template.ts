@@ -14,6 +14,12 @@ const FRAMEWORKS: Framework[] = [
         repo: 'binghuis/template-react-desktop',
       },
       {
+        title: 'NextJs',
+        value: 'nextjs',
+        color: magenta,
+        repo: 'binghuis/template-nextjs',
+      },
+      {
         title: 'Vue',
         value: 'vue-desktop',
         color: yellow,
