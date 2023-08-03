@@ -56,7 +56,7 @@ async function init() {
           type: argTargetDir ? null : 'text',
           name: 'projectName',
           message: reset('项目名:'),
-          initial: defaultTargetDir,
+          initial: grey(defaultTargetDir),
           onState: (state) => {
             targetDir = formatTargetDir(state.value) || defaultTargetDir;
           },
