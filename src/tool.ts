@@ -44,3 +44,7 @@ export function isDirPathValid(pathStr: string) {
   }
   return true;
 }
+
+export function areDirectoriesEqual(path1: string, path2: string) {
+  return path.resolve(path1) === path.resolve(path2);
+}

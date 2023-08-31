@@ -1,7 +1,7 @@
 import kleur from 'kleur';
-import { Framework } from './type';
+import { Framework, FrameworkVariant } from './type';
 
-const FRAMEWORKS: Framework[] = [
+const _FRAMEWORKS: Framework[] = [
   {
     label: 'React',
     value: 'react',
@@ -44,9 +44,17 @@ const FRAMEWORKS: Framework[] = [
   },
 ];
 
-const TEMPLATES = FRAMEWORKS.map((framework) => framework.variants?.map((variant) => variant)).reduce(
-  (cur, acc) => acc.concat(cur),
-  [],
-);
+const FRAMEWORKS = _FRAMEWORKS.filter((framework) => !framework.disabled && framework.variants.length > 0);
 
-export { FRAMEWORKS, TEMPLATES };
+const FRAMEWORK_TEMPLATE = FRAMEWORKS.reduce((acc, cur) => {
+  const _cur = cur.variants.filter((v) => !v.disabled && v.repo);
+  if (_cur.length) {
+    acc[cur.value] = _cur;
+  }
+  return acc;
+}, {} as Record<string, FrameworkVariant[]>);
+
+const TEMPLATES = Object.values(FRAMEWORK_TEMPLATE).reduce((acc, cur) => acc.concat(cur), []);
+const TEMPLATE_NAMES = TEMPLATES.map((t) => t.value);
+
+export { FRAMEWORKS, TEMPLATES, TEMPLATE_NAMES, FRAMEWORK_TEMPLATE };
