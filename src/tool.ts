@@ -1,17 +1,11 @@
-import { Framework, FrameworkVariant } from './type';
-import fs from 'node:fs';
 import path from 'node:path';
+import fs from 'fs-extra';
+import validateNpmPackageName from 'validate-npm-package-name';
+import { Framework, FrameworkVariant } from './type';
 
-/** 格式化目标目录 */
+/** 删除空格和结尾/ */
 export const formatTargetDir = (targetDir: string) => {
-  return targetDir.trim().replace(/\/+$/g, '');
-};
-
-/** 项目名是否符合规范 */
-export const isValidPackageName = (projectName: string) => {
-  return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
-    projectName,
-  );
+  return targetDir.trim().replace(/\s+/g, '-').replace(/\/+$/g, '') ?? targetDir;
 };
 
 /** 将用户输入的项目名称转换为一个符合命名规范的字符串 */
@@ -25,7 +19,7 @@ export const toValidPackageName = (projectName: string) => {
 };
 
 /** 目录是否为空 */
-export const isEmpty = (path: string) => {
+export const isEmptyDir = (path: string) => {
   const files = fs.readdirSync(path);
   return files.length === 0 || (files.length === 1 && files[0] === '.git');
 };
@@ -43,16 +37,10 @@ export const cleanDir = (dir: string) => {
   }
 };
 
-export const findRepoByName = (
-  name: string,
-  frameworks: (Framework | FrameworkVariant)[],
-): string | undefined => {
-  for (const f of frameworks) {
-    if ('variants' in f) {
-      return findRepoByName(name, f.variants);
-    }
-    if ('repo' in f && f.value === name) {
-      return f.repo;
-    }
+export function isDirPathValid(pathStr: string) {
+  if (process.platform === 'win32') {
+    // Windows 文件夹路径规范
+    return !/[<>:"\/|?*]/.test(pathStr);
   }
-};
+  return true;
+}

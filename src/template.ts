@@ -1,63 +1,52 @@
+import kleur from 'kleur';
 import { Framework } from './type';
-import { blue, cyan, green, magenta, yellow } from 'kleur/colors';
 
 const FRAMEWORKS: Framework[] = [
   {
-    title: 'Desktop Site',
-    value: 'desktop',
-    color: cyan,
+    label: 'React',
+    value: 'react',
+    color: kleur.blue,
     variants: [
       {
-        title: 'React',
-        value: 'react-desktop',
-        color: blue,
+        label: 'Admin Dashboard System',
+        hint: '管理后台',
+        value: 'react-admin',
+        color: kleur.cyan,
         repo: 'binghuis/template-react-desktop',
       },
+    ],
+  },
+  {
+    label: 'NextJs',
+    value: 'nextjs',
+    color: kleur.magenta,
+    variants: [
       {
-        title: 'NextJs',
-        value: 'nextjs',
-        color: magenta,
+        label: 'Web App (SSR)',
+        value: 'nextjs-app',
+        color: kleur.cyan,
         repo: 'binghuis/template-nextjs',
       },
+    ],
+  },
+  {
+    label: 'Vue',
+    value: 'vue',
+    color: kleur.yellow,
+    variants: [
       {
-        title: 'Vue',
-        value: 'vue-desktop',
-        color: yellow,
+        label: 'Big Screen (Echarts)',
+        value: 'vue-big-screen',
+        color: kleur.cyan,
         disabled: true,
-      },
-    ],
-  },
-  {
-    title: 'Mobile Site',
-    value: 'mobile',
-    color: green,
-    disabled: true,
-    variants: [
-      {
-        title: 'React',
-        value: 'react-mobile',
-        color: blue,
-      },
-      {
-        title: 'Vue',
-        value: 'vue-mobile',
-        color: yellow,
-      },
-    ],
-  },
-  {
-    title: 'Docs',
-    value: 'docs',
-    color: magenta,
-    disabled: true,
-    variants: [
-      {
-        value: 'astro-docs',
-        title: 'Astro',
-        color: blue,
       },
     ],
   },
 ];
 
-export { FRAMEWORKS };
+const TEMPLATES = FRAMEWORKS.map((framework) => framework.variants?.map((variant) => variant)).reduce(
+  (cur, acc) => acc.concat(cur),
+  [],
+);
+
+export { FRAMEWORKS, TEMPLATES };

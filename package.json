@@ -8,7 +8,7 @@
   ],
   "type": "commonjs",
   "license": "MIT",
-  "author": "binghuis",
+  "author": "@binghuis（https://github.com/binghuis）",
   "bin": {
     "create-hotpot": "dist/index.js",
     "hotpot": "dist/index.js"
@@ -28,28 +28,27 @@
     "node": ">=16.0.0"
   },
   "bugs": "https://github.com/binghuis/create-hotpot/issues",
-  "homepage": "https://github.com/binghuis/create-hotpot/blob/main",
+  "homepage": "https://github.com/binghuis/create-hotpot",
   "devDependencies": {
+    "@clack/prompts": "^0.7.0",
     "@srzorro/file-json": "^1.1.0",
     "@types/fs-extra": "^11.0.1",
-    "@types/minimist": "^1.2.2",
-    "@types/prompts": "^2.4.4",
-    "@vitest/ui": "^0.34.1",
+    "@types/validate-npm-package-name": "^4.0.0",
+    "@vitest/ui": "^0.34.3",
     "auto-changelog": "^2.4.0",
+    "cleye": "^1.3.2",
     "consola": "^3.2.3",
-    "execa": "^7.2.0",
+    "filenamify": "^6.0.0",
     "fs-extra": "^11.1.1",
     "gitly": "^2.4.4",
     "kleur": "^4.1.5",
-    "minimist": "^1.2.8",
     "only-allow": "^1.1.1",
-    "ora": "^7.0.1",
-    "prompts": "^2.4.2",
-    "release-it": "^16.1.3",
+    "release-it": "^16.1.5",
     "rome": "^12.1.3",
-    "terser": "^5.19.2",
+    "terser": "^5.19.3",
     "tsup": "^7.2.0",
-    "type-fest": "^4.1.0",
-    "vitest": "^0.34.1"
+    "type-fest": "^4.3.1",
+    "validate-npm-package-name": "^5.0.0",
+    "vitest": "^0.34.3"
   }
 }

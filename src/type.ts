@@ -2,10 +2,10 @@ export type ColorFunc = (str: string | number) => string;
 
 export type Framework = {
   value: string;
-  title: string;
+  label: string;
   color: ColorFunc;
   disabled?: boolean;
-  description?: string;
+  hint?: string;
   variants: FrameworkVariant[];
 };
 

@@ -11,7 +11,8 @@
     "formatter": {
         "enabled": true,
         "indentStyle": "space",
-        "indentSize": 2
+        "indentSize": 2,
+        "lineWidth": 120
     },
     "linter": {
         "enabled": true,
@@ -20,11 +21,15 @@
             "a11y": {
                 "useKeyWithClickEvents": "off"
             },
-            "complexity": {},
+            "complexity": {
+                "useLiteralKeys": "off"
+            },
             "correctness": {},
             "performance": {},
             "security": {},
-            "style": {},
+            "style": {
+                "noUnusedTemplateLiteral": "off"
+            },
             "suspicious": {
                 "noExplicitAny": "warn"
             }
