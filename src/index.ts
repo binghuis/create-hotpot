@@ -2,13 +2,14 @@
 
 import path from 'node:path';
 import * as p from '@clack/prompts';
+import FileJson from '@srzorro/file-json';
 import { cli } from 'cleye';
 import { consola } from 'consola';
 import filenamify from 'filenamify';
 import fs from 'fs-extra';
 import gitly from 'gitly';
 import kleur from 'kleur';
-import validate from 'validate-npm-package-name';
+import { PackageJson } from 'type-fest';
 import pkg from '../package.json';
 import { FRAMEWORKS, FRAMEWORK_TEMPLATE, TEMPLATES, TEMPLATE_NAMES } from './template';
 import { areDirectoriesEqual, cleanDir, isEmptyDir } from './tool';
@@ -57,7 +58,7 @@ const init = async () => {
   const absTargetDir = path.resolve(cwd, targetDir);
   const relativeTargetDir = path.relative(cwd, absTargetDir);
 
-  const projectName = path.basename(absTargetDir);
+  const pkgName = filenamify(path.basename(absTargetDir), { replacement: '-' });
 
   if (!fs.existsSync(absTargetDir)) {
     fs.mkdirSync(absTargetDir, { recursive: true });
@@ -116,13 +117,22 @@ const init = async () => {
   const download = p.spinner();
   download.start('休息一下，模板正在生成 🏂');
   await gitly(repo, absTargetDir, {});
-  download.stop(kleur.green('✓ 模板配置完成，请继续操作~'));
+  if (pkgName) {
+    const pkg = new FileJson<PackageJson>(path.resolve(absTargetDir, 'package.json'));
+    await pkg.r();
+    pkg.d.name = pkgName;
+    pkg.d.version = '0.0.1';
+    await pkg.w();
+  }
+  download.stop('✓ 模板配置完成，请继续操作~');
 
   if (!areDirectoriesEqual(absTargetDir, cwd)) {
-    console.log(`     cd ${relativeTargetDir.includes(' ') ? `"${relativeTargetDir}"` : relativeTargetDir}`);
+    console.log(
+      kleur.green(`     cd ${relativeTargetDir.includes(' ') ? `"${relativeTargetDir}"` : relativeTargetDir}`),
+    );
   }
-  console.log(`     pnpm i`);
-  console.log(`     pnpm dev`);
+  console.log(kleur.green(`     pnpm i`));
+  console.log(kleur.green(`     pnpm dev`));
 };
 
 init().catch((e) => {
