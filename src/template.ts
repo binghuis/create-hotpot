@@ -44,13 +44,12 @@ const _FRAMEWORKS: Framework[] = [
   },
 ];
 
-const FRAMEWORKS = _FRAMEWORKS.filter((framework) => !framework.disabled && framework.variants.length > 0);
+const FRAMEWORKS = _FRAMEWORKS.filter(
+  (framework) => !framework.disabled && framework.variants.some((v) => !v.disabled && v.repo),
+);
 
 const FRAMEWORK_TEMPLATE = FRAMEWORKS.reduce((acc, cur) => {
-  const _cur = cur.variants.filter((v) => !v.disabled && v.repo);
-  if (_cur.length) {
-    acc[cur.value] = _cur;
-  }
+  acc[cur.value] = cur.variants;
   return acc;
 }, {} as Record<string, FrameworkVariant[]>);
 

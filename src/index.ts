@@ -79,13 +79,13 @@ const init = async () => {
   let tempalteName = argTemplateName ?? '';
   if (!TEMPLATE_NAMES.includes(tempalteName)) {
     const t = await p.group<{
-      frameworkName?: Framework['value'] | symbol;
-      promptTempalteName?: FrameworkVariant['value'] | symbol;
+      frameworkName: Framework['value'] | symbol;
+      promptTempalteName: FrameworkVariant['value'] | symbol;
     }>(
       {
         frameworkName: () =>
           p.select({
-            message: tempalteName ? `模板 "${tempalteName}" 不存在。请从下面模板中选择:` : '请选择一个框架模板:',
+            message: tempalteName ? `模板 "${tempalteName}" 不存在。请从下面模板中选择:` : '请选择一个模板框架:',
             options: FRAMEWORKS.map((framework) => ({
               label: framework.color(framework.label),
               value: framework.value,
@@ -108,12 +108,7 @@ const init = async () => {
         onCancel: () => cancel(),
       },
     );
-    tempalteName = t?.['promptTempalteName'] ?? '';
-
-    if (!tempalteName) {
-      p.cancel('当前模板暂未发布 ⏳');
-      process.exit(0);
-    }
+    tempalteName = t['promptTempalteName'] ?? '';
   }
 
   const repo = TEMPLATES.filter((t) => t.value === tempalteName)[0]?.repo ?? '';
@@ -123,7 +118,7 @@ const init = async () => {
   await gitly(repo, absTargetDir, {});
   download.stop(kleur.green('✓ 模板配置完成，请继续操作~'));
 
-  if (absTargetDir !== cwd) {
+  if (!areDirectoriesEqual(absTargetDir, cwd)) {
     console.log(`     cd ${relativeTargetDir.includes(' ') ? `"${relativeTargetDir}"` : relativeTargetDir}`);
   }
   console.log(`     pnpm i`);
