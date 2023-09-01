@@ -51,7 +51,7 @@ const init = async () => {
       placeholder: defaultTargetDir,
       defaultValue: defaultTargetDir,
       validate(value) {
-        if (!isPathValid(value)) {
+        if (!isPathValid(value ? value : defaultTargetDir)) {
           return '包含非法字符';
         }
       },

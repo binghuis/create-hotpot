@@ -5,8 +5,9 @@ import type { ExecaSyncReturnValue, SyncOptions } from 'execa';
 import { execaCommandSync } from 'execa';
 import fs from 'fs-extra';
 import gitly from 'gitly';
+import { isPathValid } from 'src/tool';
 import { PackageJson } from 'type-fest';
-import { afterAll, beforeAll, beforeEach, describe, expect, test } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 const CLI_PATH = join(__dirname, '../dist/index.js');
 
@@ -41,7 +42,7 @@ describe('测试生成结果', async () => {
 
   const templateFiles = fs.readdirSync(templatePath).sort();
 
-  test('测试 -t 结果', () => {
+  it('测试 -t 结果', () => {
     const { stdout } = run([projectName, '-t', template], {
       cwd: __dirname,
     });
@@ -49,5 +50,10 @@ describe('测试生成结果', async () => {
     const generatedFiles = fs.readdirSync(genPath).sort();
     expect(stdout).toContain('cd test-app');
     expect(templateFiles).toEqual(generatedFiles);
+  });
+
+  it('文件路径合法性测试', () => {
+    expect(isPathValid('.')).toBe(true);
+    expect(isPathValid(' <q(<d]// ')).toBe(false);
   });
 });
