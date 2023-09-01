@@ -1,5 +1,5 @@
 import kleur from 'kleur';
-import { Framework, FrameworkVariant } from './type';
+import { Framework, FrameworkVariant, ValidFramework, ValidFrameworkVariant } from './type';
 
 const _FRAMEWORKS: Framework[] = [
   {
@@ -46,12 +46,12 @@ const _FRAMEWORKS: Framework[] = [
 
 const FRAMEWORKS = _FRAMEWORKS.filter(
   (framework) => !framework.disabled && framework.variants.some((v) => !v.disabled && v.repo),
-);
+) as ValidFramework[];
 
 const FRAMEWORK_TEMPLATE = FRAMEWORKS.reduce((acc, cur) => {
   acc[cur.value] = cur.variants;
   return acc;
-}, {} as Record<string, FrameworkVariant[]>);
+}, {} as Record<string, ValidFrameworkVariant[]>);
 
 const TEMPLATES = Object.values(FRAMEWORK_TEMPLATE).reduce((acc, cur) => acc.concat(cur), []);
 const TEMPLATE_NAMES = TEMPLATES.map((t) => t.value);

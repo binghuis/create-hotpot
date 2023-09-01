@@ -12,8 +12,9 @@ import kleur from 'kleur';
 import { PackageJson } from 'type-fest';
 import pkg from '../package.json';
 import { FRAMEWORKS, FRAMEWORK_TEMPLATE, TEMPLATES, TEMPLATE_NAMES } from './template';
-import { areDirectoriesEqual, cleanDir, isEmptyDir } from './tool';
+import { areDirectoriesEqual, cleanDir, isEmptyDir, isPathValid } from './tool';
 import { Framework, FrameworkVariant } from './type';
+
 const argv = cli({
   name: pkg.name,
   version: pkg.version,
@@ -26,7 +27,7 @@ const argv = cli({
     },
   },
   help: {
-    description: `@author ${pkg.author}`,
+    description: pkg.homepage,
     usage: ['pnpm create hotpot', 'pnpm create hotpot [target dir] -t [template name]'],
   },
 });
@@ -37,7 +38,7 @@ const {
 } = argv;
 
 const cancel = (message?: string) => {
-  p.cancel(message ?? '✖ 操作已取消');
+  p.cancel(message ?? '✖ 已取消');
   process.exit(0);
 };
 
@@ -50,7 +51,11 @@ const init = async () => {
       message: '项目名:',
       placeholder: defaultTargetDir,
       defaultValue: defaultTargetDir,
-      validate(value) {},
+      validate(value) {
+        if (!isPathValid(value)) {
+          return '包含非法字符';
+        }
+      },
     })) as string;
   }
 
@@ -58,11 +63,12 @@ const init = async () => {
   const absTargetDir = path.resolve(cwd, targetDir);
   const relativeTargetDir = path.relative(cwd, absTargetDir);
 
-  const pkgName = filenamify(path.basename(absTargetDir), { replacement: '-' });
+  const pkgName = path.basename(absTargetDir);
 
   if (!fs.existsSync(absTargetDir)) {
     fs.mkdirSync(absTargetDir, { recursive: true });
   }
+
   if (!isEmptyDir(absTargetDir)) {
     const overwrite = (await p.confirm({
       message: `${
@@ -73,7 +79,7 @@ const init = async () => {
     if (overwrite) {
       cleanDir(absTargetDir);
     } else {
-      cancel('终止创建');
+      cancel();
     }
   }
 

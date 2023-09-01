@@ -20,14 +20,10 @@ export const cleanDir = (dir: string) => {
   }
 };
 
-export function isDirPathValid(pathStr: string) {
-  if (process.platform === 'win32') {
-    // Windows 文件夹路径规范
-    return !/[<>:"\/|?*]/.test(pathStr);
-  }
-  return true;
-}
-
 export function areDirectoriesEqual(path1: string, path2: string) {
   return path.resolve(path1) === path.resolve(path2);
+}
+
+export function isPathValid(path: string) {
+  return path.normalize(path) === path;
 }

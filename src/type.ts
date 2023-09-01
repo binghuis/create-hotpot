@@ -1,3 +1,4 @@
+import { OverrideProperties } from 'type-fest';
 export type ColorFunc = (str: string | number) => string;
 
 export type Framework = {
@@ -12,3 +13,6 @@ export type Framework = {
 export type FrameworkVariant = {
   repo?: string;
 } & Omit<Framework, 'variants'>;
+
+export type ValidFramework = OverrideProperties<Framework, { disabled?: false; variants: ValidFrameworkVariant[] }>;
+export type ValidFrameworkVariant = OverrideProperties<FrameworkVariant, { disabled?: false; repo: string }>;
