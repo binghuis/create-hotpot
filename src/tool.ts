@@ -24,6 +24,6 @@ export function areDirectoriesEqual(path1: string, path2: string) {
   return path.resolve(path1) === path.resolve(path2);
 }
 
-export function isPathValid(path: string) {
-  return path.normalize(path) === path;
+export function isPathValid(filePath: string) {
+  return path.normalize(filePath) === filePath;
 }
