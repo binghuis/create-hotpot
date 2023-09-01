@@ -19,17 +19,10 @@ pnpm create hotpot
 Specify the project generation directory through command line arguments.
 
 ```
-pnpm create hotpot <project-directory>
+pnpm create hotpot [target dir] -t [template name]
 ```
 
-## Options
-
-- `-t` or `--template`: Specify the project template.
-
-  ```
-  pnpm create hotpot -t <template>
-  ```
 
 ## Templates
 
-- [react-desktop](https://github.com/binghuis/template-react-desktop)
+- [react-admin](https://github.com/binghuis/template-react-desktop)
