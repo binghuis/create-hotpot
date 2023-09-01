@@ -75,9 +75,7 @@ const init = async () => {
       }已存在文件。是否清空并继续创建？`,
     })) as boolean;
 
-    if (overwrite) {
-      cleanDir(absTargetDir);
-    } else {
+    if (!overwrite) {
       cancel();
     }
   }
@@ -121,6 +119,7 @@ const init = async () => {
 
   const download = p.spinner();
   download.start('休息一下，模板正在生成 🏂');
+  cleanDir(absTargetDir);
   await gitly(repo, absTargetDir, {});
   if (pkgName) {
     const pkg = new FileJson<PackageJson>(path.resolve(absTargetDir, 'package.json'));
