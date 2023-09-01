@@ -5,7 +5,6 @@ import * as p from '@clack/prompts';
 import FileJson from '@srzorro/file-json';
 import { cli } from 'cleye';
 import { consola } from 'consola';
-import filenamify from 'filenamify';
 import fs from 'fs-extra';
 import gitly from 'gitly';
 import kleur from 'kleur';
@@ -13,7 +12,7 @@ import { PackageJson } from 'type-fest';
 import pkg from '../package.json';
 import { FRAMEWORKS, FRAMEWORK_TEMPLATE, TEMPLATES, TEMPLATE_NAMES } from './template';
 import { areDirectoriesEqual, cleanDir, isEmptyDir, isPathValid } from './tool';
-import { Framework, FrameworkVariant } from './type';
+import { ValidFramework, ValidFrameworkVariant } from './type';
 
 const argv = cli({
   name: pkg.name,
@@ -86,8 +85,8 @@ const init = async () => {
   let tempalteName = argTemplateName ?? '';
   if (!TEMPLATE_NAMES.includes(tempalteName)) {
     const t = await p.group<{
-      frameworkName: Framework['value'] | symbol;
-      promptTempalteName: FrameworkVariant['value'] | symbol;
+      frameworkName: ValidFramework['value'] | symbol;
+      promptTempalteName: ValidFrameworkVariant['value'] | symbol;
     }>(
       {
         frameworkName: () =>
@@ -103,7 +102,7 @@ const init = async () => {
           return p.select({
             message: '请选择一个项目模板:',
             options:
-              FRAMEWORK_TEMPLATE?.[results.frameworkName ?? '']?.map((variant) => ({
+              FRAMEWORK_TEMPLATE[results.frameworkName ?? '']?.map((variant) => ({
                 label: variant.color(variant.label),
                 value: variant.value,
                 hint: variant.hint,
@@ -115,7 +114,7 @@ const init = async () => {
         onCancel: () => cancel(),
       },
     );
-    tempalteName = t['promptTempalteName'] ?? '';
+    tempalteName = t['promptTempalteName'];
   }
 
   const repo = TEMPLATES.filter((t) => t.value === tempalteName)[0]?.repo ?? '';

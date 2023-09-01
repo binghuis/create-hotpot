@@ -1,5 +1,5 @@
 import kleur from 'kleur';
-import { Framework, FrameworkVariant, ValidFramework, ValidFrameworkVariant } from './type';
+import { Framework, ValidFramework, ValidFrameworkVariant } from './type';
 
 const _FRAMEWORKS: Framework[] = [
   {
