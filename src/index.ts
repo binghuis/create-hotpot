@@ -132,7 +132,7 @@ const init = async () => {
     pkg.d.version = '0.0.1';
     await pkg.w();
   }
-  download.stop(kleur.green('✓ 模板配置完成，请继续操作~'));
+  download.stop(kleur.green('✓ 模板配置完成，请操作:'));
 
   if (!areDirectoriesEqual(absTargetDir, cwd)) {
     console.log(`     cd ${relativeTargetDir.includes(' ') ? `"${relativeTargetDir}"` : relativeTargetDir}`);
