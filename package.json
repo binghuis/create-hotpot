@@ -41,7 +41,7 @@
     "execa": "^8.0.1",
     "filenamify": "^6.0.0",
     "fs-extra": "^11.1.1",
-    "gitly": "^2.4.4",
+    "giget": "^1.1.2",
     "kleur": "^4.1.5",
     "only-allow": "^1.1.1",
     "release-it": "^16.1.5",

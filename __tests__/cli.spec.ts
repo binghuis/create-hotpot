@@ -4,7 +4,7 @@ import FileJson from '@srzorro/file-json';
 import type { ExecaSyncReturnValue, SyncOptions } from 'execa';
 import { execaCommandSync } from 'execa';
 import fs from 'fs-extra';
-import gitly from 'gitly';
+import { downloadTemplate } from 'giget';
 import { isPathValid } from 'src/tool';
 import { PackageJson } from 'type-fest';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
@@ -34,7 +34,8 @@ afterAll(() => {
 });
 
 describe('测试生成结果', async () => {
-  await gitly('binghuis/template-react-desktop', templatePath, {});
+  await downloadTemplate(`github:binghuis/template-react-desktop`, { dir: templatePath });
+
   const pkg = new FileJson<PackageJson>(path.join(templatePath, 'package.json'));
   await pkg.r();
   pkg.d.name = projectName;

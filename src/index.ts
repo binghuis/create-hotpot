@@ -6,7 +6,7 @@ import FileJson from '@srzorro/file-json';
 import { cli } from 'cleye';
 import { consola } from 'consola';
 import fs from 'fs-extra';
-import gitly from 'gitly';
+import { downloadTemplate } from 'giget';
 import kleur from 'kleur';
 import { PackageJson } from 'type-fest';
 import pkg from '../package.json';
@@ -47,7 +47,7 @@ const init = async () => {
   let targetDir = argTargetDir ?? '';
   if (!targetDir) {
     targetDir = (await p.text({
-      message: '项目名:',
+      message: kleur.cyan('项目名:'),
       placeholder: defaultTargetDir,
       defaultValue: defaultTargetDir,
       validate(value) {
@@ -70,12 +70,14 @@ const init = async () => {
 
   if (!isEmptyDir(absTargetDir)) {
     const overwrite = (await p.confirm({
-      message: `${
-        areDirectoriesEqual(cwd, absTargetDir) ? '当前目录' : `目标目录 "${targetDir}" `
-      }已存在文件。是否清空并继续创建？`,
+      message: kleur.yellow(
+        `${
+          areDirectoriesEqual(cwd, absTargetDir) ? '当前目录' : `目标目录 "${targetDir}" `
+        }已存在文件。是否清空并继续创建？`,
+      ),
     })) as boolean;
 
-    if (!overwrite) {
+    if (p.isCancel(overwrite)) {
       cancel();
     }
   }
@@ -89,19 +91,21 @@ const init = async () => {
       {
         frameworkName: () =>
           p.select({
-            message: tempalteName ? `模板 "${tempalteName}" 不存在。请从下面模板中选择:` : '请选择一个模板框架:',
+            message: kleur.cyan(
+              tempalteName ? `模板 "${tempalteName}" 不存在。请从下面模板中选择:` : '请选择一个模板框架:',
+            ),
             options: FRAMEWORKS.map((framework) => ({
-              label: framework.color(framework.label),
+              label: framework.label,
               value: framework.value,
               hint: framework.hint,
             })),
           }),
         promptTempalteName: ({ results }) => {
           return p.select({
-            message: '请选择一个项目模板:',
+            message: kleur.cyan('请选择一个项目模板:'),
             options:
               FRAMEWORK_TEMPLATE[results.frameworkName ?? '']?.map((variant) => ({
-                label: variant.color(variant.label),
+                label: variant.label,
                 value: variant.value,
                 hint: variant.hint,
               })) ?? [],
@@ -118,9 +122,9 @@ const init = async () => {
   const repo = TEMPLATES.filter((t) => t.value === tempalteName)[0]?.repo ?? '';
 
   const download = p.spinner();
-  download.start('休息一下，模板正在生成 🏂');
+  download.start(kleur.magenta('休息一下，模板正在生成 🏂'));
   cleanDir(absTargetDir);
-  await gitly(repo, absTargetDir, {});
+  await downloadTemplate(`github:${repo}`, { dir: absTargetDir });
   if (pkgName) {
     const pkg = new FileJson<PackageJson>(path.resolve(absTargetDir, 'package.json'));
     await pkg.r();
@@ -128,15 +132,13 @@ const init = async () => {
     pkg.d.version = '0.0.1';
     await pkg.w();
   }
-  download.stop('✓ 模板配置完成，请继续操作~');
+  download.stop(kleur.green('✓ 模板配置完成，请继续操作~'));
 
   if (!areDirectoriesEqual(absTargetDir, cwd)) {
-    console.log(
-      kleur.green(`     cd ${relativeTargetDir.includes(' ') ? `"${relativeTargetDir}"` : relativeTargetDir}`),
-    );
+    console.log(`     cd ${relativeTargetDir.includes(' ') ? `"${relativeTargetDir}"` : relativeTargetDir}`);
   }
-  console.log(kleur.green(`     pnpm i`));
-  console.log(kleur.green(`     pnpm dev`));
+  console.log(`     pnpm i`);
+  console.log(`     pnpm dev`);
 };
 
 init().catch((e) => {
