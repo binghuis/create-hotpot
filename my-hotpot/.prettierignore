@@ -1,6 +1,0 @@
-dist/
-node_modules/
-__service__/
-router.ts
-vite.config.ts.timestamp-*
-stats.*
