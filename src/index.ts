@@ -122,7 +122,7 @@ const init = async () => {
   const repo = TEMPLATES.filter((t) => t.value === tempalteName)[0]?.repo ?? '';
 
   const download = p.spinner();
-  download.start(kleur.magenta('休息一下，模板正在生成 🏂'));
+  download.start(kleur.cyan('休息一下，模板正在生成 🏂'));
   cleanDir(absTargetDir);
   await downloadTemplate(`github:${repo}`, { dir: absTargetDir });
   if (pkgName) {
@@ -132,7 +132,7 @@ const init = async () => {
     pkg.d.version = '0.0.1';
     await pkg.w();
   }
-  download.stop(kleur.green('✓ 模板配置完成，请继续操作~'));
+  download.stop(kleur.green('✓ 模板配置完成，请继续操作:'));
 
   if (!areDirectoriesEqual(absTargetDir, cwd)) {
     console.log(`     cd ${relativeTargetDir.includes(' ') ? `"${relativeTargetDir}"` : relativeTargetDir}`);
