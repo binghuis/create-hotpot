@@ -1,7 +1,8 @@
 {
-    "editor.defaultFormatter": "rome.rome",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.organizeImports.rome": true
-    }
+        "quickfix.biome": true,
+        "source.organizeImports.biome": true
+    },
+    "editor.defaultFormatter": "biomejs.biome"
 }

@@ -30,6 +30,7 @@
   "bugs": "https://github.com/binghuis/create-hotpot/issues",
   "homepage": "https://github.com/binghuis/create-hotpot",
   "devDependencies": {
+    "@biomejs/biome": "1.3.3",
     "@clack/prompts": "^0.7.0",
     "@srzorro/file-json": "^1.1.0",
     "@types/fs-extra": "^11.0.1",
@@ -45,7 +46,6 @@
     "kleur": "^4.1.5",
     "only-allow": "^1.1.1",
     "release-it": "^16.1.5",
-    "rome": "^12.1.3",
     "terser": "^5.19.3",
     "tsup": "^7.2.0",
     "type-fest": "^4.3.1",
