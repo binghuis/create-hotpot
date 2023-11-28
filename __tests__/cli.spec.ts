@@ -14,7 +14,7 @@ const CLI_PATH = join(__dirname, "../dist/index.js");
 const projectName = "test-app";
 const genPath = join(__dirname, projectName);
 const templatePath = join(__dirname, "template");
-const template = "react-admin";
+const template = "react-vite";
 
 const run = (
 	args: string[],
