@@ -4,7 +4,9 @@
 
 `create-hotpot` is a CLI tool for quickly building personal projects.
 
-[![npm version](https://img.shields.io/npm/v/create-hotpot?style=flat-square)](https://www.npmjs.com/package/create-hotpot)
+[![npm](https://img.shields.io/npm/v/create-hotpot?logo=npm)](https://www.npmjs.com/package/create-hotpot)
+
+
 
 </div>
 
@@ -25,4 +27,5 @@ pnpm create hotpot [target dir] -t [template name]
 
 ## Templates
 
-- [react-admin](https://github.com/binghuis/template-react-desktop)
+- [react-vite](https://github.com/binghuis/tmpl-react-vite)
+- [nextjs](https://github.com/binghuis/tmpl-nextjs)

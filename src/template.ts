@@ -6,31 +6,32 @@ const _FRAMEWORKS: Framework[] = [
 		value: "react",
 		variants: [
 			{
-				label: "Admin Dashboard System",
+				label: "React + Vite + AntD",
 				hint: "管理后台",
-				value: "react-admin",
-				repo: "binghuis/template-react-desktop",
+				value: "react-vite",
+				repo: "binghuis/tmpl-react-vite",
 			},
 		],
 	},
 	{
-		label: "NextJs",
+		label: "Next.js",
 		value: "nextjs",
 		variants: [
 			{
-				label: "Web App (SSR)",
-				value: "nextjs-app",
-				repo: "binghuis/template-nextjs",
+				label: "Next.js + NextUI",
+				hint: "SSR Web",
+				value: "nextjs-nextui",
+				repo: "binghuis/tmpl-nextjs",
 			},
 		],
 	},
 	{
-		label: "Vue",
-		value: "vue",
+		label: "NestJS",
+		value: "nestjs",
 		variants: [
 			{
-				label: "Big Screen (Echarts)",
-				value: "vue-big-screen",
+				label: "NestJS",
+				value: "nestjs",
 				disabled: true,
 			},
 		],
