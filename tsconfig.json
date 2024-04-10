@@ -1,8 +1,5 @@
 {
-  "include": [
-    "src",
-    "__tests__"
-  ],
+  "include": ["src", "__tests__"],
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",

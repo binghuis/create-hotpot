@@ -1,14 +1,14 @@
 {
-    "git": {
-        "tagName": "v${version}",
-        "changelog": "npx auto-changelog --stdout --commit-limit false --unreleased --template https://raw.gitmirror.com/release-it/release-it/main/templates/changelog-compact.hbs"
-    },
-    "github": {
-        "release": false,
-        "skipLibCheck": true
-    },
-    "hooks": {
-        "after:bump": "npx auto-changelog -p"
-    },
-    "plugins": {}
+  "git": {
+    "tagName": "v${version}",
+    "changelog": "npx auto-changelog --stdout --commit-limit false --unreleased --template https://raw.gitmirror.com/release-it/release-it/main/templates/changelog-compact.hbs"
+  },
+  "github": {
+    "release": false,
+    "skipLibCheck": true
+  },
+  "hooks": {
+    "after:bump": "npx auto-changelog -p"
+  },
+  "plugins": {}
 }

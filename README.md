@@ -6,8 +6,6 @@
 
 [![npm](https://img.shields.io/npm/v/create-hotpot?logo=npm)](https://www.npmjs.com/package/create-hotpot)
 
-
-
 </div>
 
 ## How to Use
@@ -23,7 +21,6 @@ Specify the project generation directory through command line arguments.
 ```
 pnpm create hotpot [target dir] -t [template name]
 ```
-
 
 ## Templates
 
