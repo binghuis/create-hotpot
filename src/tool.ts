@@ -1,13 +1,11 @@
 import fs from 'fs-extra';
 import path from 'node:path';
 
-/** 目录是否为空 */
 export const isEmptyDir = (path: string) => {
   const files = fs.readdirSync(path);
   return files.length === 0 || (files.length === 1 && files[0] === '.git');
 };
 
-/** 清空指定目录下的所有文件和子目录 */
 export const cleanDir = (dir: string) => {
   if (!fs.existsSync(dir)) {
     return;

@@ -43,7 +43,7 @@ const cancel = (message?: string) => {
 
 const defaultTargetDir = 'my-hotpot';
 
-const init = async () => {
+const main = async () => {
   let targetDir = argTargetDir ?? '';
   if (!targetDir) {
     targetDir = (await p.text({
@@ -145,6 +145,6 @@ const init = async () => {
   console.log('     pnpm dev');
 };
 
-init().catch((e) => {
+main().catch((e) => {
   consola.error(new Error(e));
 });

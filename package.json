@@ -23,9 +23,6 @@
     "build": "tsup",
     "release": "release-it"
   },
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "bugs": "https://github.com/binghuis/create-hotpot/issues",
   "homepage": "https://github.com/binghuis/create-hotpot",
   "devDependencies": {
@@ -52,7 +49,7 @@
     "terser": "^5.30.3",
     "tsup": "^8.0.2",
     "type-fest": "^4.15.0",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "typescript-eslint": "^7.6.0",
     "validate-npm-package-name": "^5.0.0",
     "vitest": "^1.4.0"
