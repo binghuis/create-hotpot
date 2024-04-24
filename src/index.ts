@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
+import NanoJson from '@bit2byte/nano-json';
 import * as p from '@clack/prompts';
-import FileJson from '@srzorro/file-json';
 import { cli } from 'cleye';
 import { consola } from 'consola';
 import fs from 'fs-extra';
@@ -56,6 +56,10 @@ const main = async () => {
         }
       },
     })) as string;
+  }
+
+  if (p.isCancel(targetDir)) {
+    cancel();
   }
 
   const cwd = process.cwd();
@@ -128,10 +132,12 @@ const main = async () => {
   cleanDir(absTargetDir);
   await downloadTemplate(`github:${repo}`, { dir: absTargetDir });
   if (pkgName) {
-    const pkg = new FileJson<PackageJson>(path.resolve(absTargetDir, 'package.json'));
+    const pkg = new NanoJson<PackageJson>(path.join(absTargetDir, 'package.json'));
     await pkg.r();
-    pkg.d.name = pkgName;
-    pkg.d.version = '0.0.1';
+    if (pkg.d) {
+      pkg.d.name = pkgName;
+      pkg.d.version = '0.0.1';
+    }
     await pkg.w();
   }
   download.stop(kleur.green('✓ 模板配置完成，请继续操作:'));

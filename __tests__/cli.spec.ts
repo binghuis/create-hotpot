@@ -1,4 +1,4 @@
-import FileJson from '@srzorro/file-json';
+import NanoJson from '@bit2byte/nano-json';
 import type { ExecaSyncReturnValue, SyncOptions } from 'execa';
 import { execaCommandSync } from 'execa';
 import fs from 'fs-extra';
@@ -37,9 +37,11 @@ describe('测试生成结果', async () => {
     dir: templatePath,
   });
 
-  const pkg = new FileJson<PackageJson>(path.join(templatePath, 'package.json'));
+  const pkg = new NanoJson<PackageJson>(path.join(templatePath, 'package.json'));
   await pkg.r();
-  pkg.d.name = projectName;
+  if (pkg.d) {
+    pkg.d.name = projectName;
+  }
   await pkg.w();
 
   const templateFiles = fs.readdirSync(templatePath).sort();

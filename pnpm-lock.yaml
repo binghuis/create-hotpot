@@ -5,15 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
+  '@bit2byte/nano-json':
+    specifier: ^0.1.1
+    version: 0.1.1
   '@clack/prompts':
     specifier: ^0.7.0
     version: 0.7.0
   '@eslint/js':
     specifier: ^9.0.0
     version: 9.0.0
-  '@srzorro/file-json':
-    specifier: ^1.1.0
-    version: 1.1.0
   '@types/fs-extra':
     specifier: ^11.0.4
     version: 11.0.4
@@ -115,6 +115,10 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
       picocolors: 1.0.0
+    dev: true
+
+  /@bit2byte/nano-json@0.1.1:
+    resolution: {integrity: sha512-E1m9osHTMxb+6TGn/i2SRaF4/6yupkjZ+ss1nAHhE1wa0xOQ4FF2/ZQaESysWFrj0JZAkdrXufLfsLzXYQ+TVA==}
     dev: true
 
   /@clack/core@0.3.4:
@@ -975,10 +979,6 @@ packages:
   /@sindresorhus/merge-streams@2.3.0:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
-    dev: true
-
-  /@srzorro/file-json@1.1.0:
-    resolution: {integrity: sha512-nXSk4WFgDCNVhQQ29iUo1MHzNncxO6lpcSkEhjLqOna2Cp95drdMU0nFw3kg03Dmp31H+iK8CUpRky/ZeBUiAA==}
     dev: true
 
   /@szmarczak/http-timer@5.0.1:
