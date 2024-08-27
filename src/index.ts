@@ -21,11 +21,12 @@ const argv = cli({
   flags: {
     template: {
       type: String,
-      description: '要加载的模板名称',
+      description: 'Template Name',
       alias: 't',
     },
   },
   help: {
+    version: pkg.version,
     description: pkg.homepage,
     usage: ['pnpm create hotpot', 'pnpm create hotpot [target dir] -t [template name]'],
   },

@@ -21,7 +21,8 @@
     "test:ui": "vitest --ui",
     "dev": "tsup --watch",
     "build": "tsup",
-    "release": "release-it"
+    "release": "release-it",
+    "preview": "node dist/index.js"
   },
   "bugs": "https://github.com/binghuis/create-hotpot/issues",
   "homepage": "https://github.com/binghuis/create-hotpot",
