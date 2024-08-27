@@ -33,7 +33,7 @@ const argv = cli({
 });
 
 const {
-  flags: { template: argTemplateName },
+  flags: { template },
   _: { targetDir: argTargetDir },
 } = argv;
 
@@ -87,7 +87,7 @@ const main = async () => {
     }
   }
 
-  let tempalteName = argTemplateName ?? '';
+  let tempalteName = template ?? '';
   if (!TEMPLATE_NAMES.includes(tempalteName)) {
     const t = await p.group<{
       frameworkName: ValidFramework['value'] | symbol;
