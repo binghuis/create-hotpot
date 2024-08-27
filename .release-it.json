@@ -10,5 +10,8 @@
   "hooks": {
     "after:bump": "npx auto-changelog -p"
   },
-  "plugins": {}
+  "plugins": {},
+  "npm": {
+    "timeout": 600000
+  }
 }
