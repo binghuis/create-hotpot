@@ -8,7 +8,7 @@
     "skipLibCheck": true
   },
   "hooks": {
-    "after:bump": "auto-changelog -p"
+    "after:bump": ["pnpm build", "auto-changelog -p"]
   },
   "plugins": {},
   "npm": {

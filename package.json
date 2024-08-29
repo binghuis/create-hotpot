@@ -21,7 +21,7 @@
     "test:ui": "vitest --ui",
     "dev": "tsup --watch",
     "build": "tsup",
-    "release": "pnpm build && release-it"
+    "release": "release-it"
   },
   "bugs": "https://github.com/binghuis/create-hotpot/issues",
   "homepage": "https://github.com/binghuis/create-hotpot",
