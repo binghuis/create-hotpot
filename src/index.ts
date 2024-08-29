@@ -38,7 +38,7 @@ const {
 } = argv;
 
 const cancel = (message?: string) => {
-  p.cancel(message ?? '✖ 已取消');
+  p.cancel(`✖ ${message ?? '已取消'}`);
   process.exit(0);
 };
 
@@ -64,6 +64,7 @@ const main = async () => {
   }
 
   const cwd = process.cwd();
+
   const absTargetDir = path.resolve(cwd, targetDir);
   const relativeTargetDir = path.relative(cwd, absTargetDir);
 
@@ -130,8 +131,11 @@ const main = async () => {
 
   const download = p.spinner();
   download.start(kleur.cyan('休息一下，模板正在生成 🏂'));
-  cleanDir(absTargetDir);
-  await downloadTemplate(`github:${repo}`, { dir: absTargetDir });
+  if (!isEmptyDir(absTargetDir)) {
+    cleanDir(absTargetDir);
+  }
+  await downloadTemplate(`github:${repo}`, { dir: absTargetDir, force: true });
+
   if (pkgName) {
     const pkg = new NanoJson<PackageJson>(path.join(absTargetDir, 'package.json'));
     await pkg.r();
@@ -154,4 +158,5 @@ const main = async () => {
 
 main().catch((e) => {
   consola.error(new Error(e));
+  cancel('已终止');
 });
