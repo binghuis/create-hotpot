@@ -16,10 +16,6 @@ To use this tool directly in the terminal, simply enter the following command:
 pnpm create hotpot
 ```
 
-```bash
-pnpm create hotpot@latest
-```
-
 Specify the project generation directory through command line arguments.
 
 ```bash
