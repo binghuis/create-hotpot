@@ -1,7 +1,7 @@
 {
   "include": ["src", "__tests__"],
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2017",
     "module": "CommonJS",
     "strict": true,
     "skipLibCheck": true,
