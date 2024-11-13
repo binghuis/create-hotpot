@@ -7,7 +7,7 @@ const _FRAMEWORKS: Framework[] = [
     variants: [
       {
         label: 'React + Vite + AntD',
-        hint: '管理后台',
+        hint: 'SPA Web',
         value: 'react-vite',
         repo: 'binghuis/tmpl-react-vite',
       },
@@ -30,9 +30,10 @@ const _FRAMEWORKS: Framework[] = [
     value: 'nestjs',
     variants: [
       {
-        label: 'NestJS',
-        value: 'nestjs',
-        disabled: true,
+        label: 'Basic NestJS',
+        value: 'nestjs-basic',
+        hint: 'API Server',
+        repo: 'binghuis/tmpl-nestjs',
       },
     ],
   },
